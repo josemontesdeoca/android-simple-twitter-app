@@ -1,3 +1,4 @@
+
 package com.joseonline.apps.cardenalito;
 
 import android.content.Context;
@@ -16,23 +17,25 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  *     
  */
 public class CardenalitoApplication extends com.activeandroid.app.Application {
-	private static Context context;
-	
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
         CardenalitoApplication.context = this;
-        
+
         // Create global configuration and initialize ImageLoader with this configuration
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-        		cacheInMemory().cacheOnDisc().build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-            .defaultDisplayImageOptions(defaultOptions)
-            .build();
+                cacheInMemory().cacheOnDisc().build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
         ImageLoader.getInstance().init(config);
     }
-    
+
     public static TwitterClient getRestClient() {
-    	return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, CardenalitoApplication.context);
+        return (TwitterClient) TwitterClient.getInstance(TwitterClient.class,
+                CardenalitoApplication.context);
     }
 }

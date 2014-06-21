@@ -1,11 +1,14 @@
 
-package com.joseonline.apps.cardenalito;
+package com.joseonline.apps.cardenalito.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
 import com.codepath.oauth.OAuthLoginActivity;
+import com.joseonline.apps.cardenalito.R;
+import com.joseonline.apps.cardenalito.TwitterClient;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
 
@@ -27,8 +30,8 @@ public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
      */
     @Override
     public void onLoginSuccess() {
-        // Intent i = new Intent(this, PhotosActivity.class);
-        // startActivity(i);
+        Intent i = new Intent(this, TimelineActivity.class);
+        startActivity(i);
     }
 
     /**
