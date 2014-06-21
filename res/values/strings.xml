@@ -4,7 +4,7 @@
     <string name="app_name">Cardenalito</string>
     <string name="action_settings">Settings</string>
     <string name="login_label">Connect to twitter</string>
-    <string name="title_activity_timeline">Timeline</string>
+    <string name="title_activity_timeline">Home</string>
     <string name="profile_image_description">Profile Image</string>
     <string name="foo_label">\@foo</string>
     <string name="sample_tweet_body_label">This is the tweet body</string>
