@@ -37,8 +37,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUserName"
+        android:autoLink="all"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/sample_tweet_body_label" />
 
     
