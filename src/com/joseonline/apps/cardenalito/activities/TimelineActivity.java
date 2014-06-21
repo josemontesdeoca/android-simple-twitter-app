@@ -15,6 +15,7 @@ import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
+import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -32,17 +33,33 @@ public class TimelineActivity extends Activity {
 
         client = CardenalitoApplication.getRestClient();
 
-        populateTimeline();
+        setupViews();
 
-        lvTimeline = (ListView) findViewById(R.id.lvTimeline);
         tweets = new ArrayList<Tweet>();
-
         aTweets = new TweetArrayAdapter(this, tweets);
         lvTimeline.setAdapter(aTweets);
+
+        populateTimeline(null);
     }
 
-    public void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    private void setupViews() {
+        lvTimeline = (ListView) findViewById(R.id.lvTimeline);
+
+        // Endless scrolling
+        lvTimeline.setOnScrollListener(new EndlessScrollListener() {
+            
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Tweet oldestTweet = aTweets.getItem(aTweets.getCount() - 1);
+                Long oldestTweetId = oldestTweet.getUid();
+                
+                populateTimeline(String.valueOf(oldestTweetId -1));
+            }
+        });
+    }
+
+    public void populateTimeline(String maxId) {
+        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray json) {
                 Log.d("debug", json.toString());
