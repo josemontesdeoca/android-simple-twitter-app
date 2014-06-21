@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joseonline.apps.cardenalito.R;
+import com.joseonline.apps.cardenalito.helpers.DateUtil;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -36,6 +37,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
         ImageView ivProfileImage = (ImageView) v.findViewById(R.id.ivProfileImage);
         TextView tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+        TextView tvCreatedAt = (TextView) v.findViewById(R.id.tvCreatedAt);
         TextView tvTweetBody = (TextView) v.findViewById(R.id.tvTweetBody);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -43,6 +45,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         ivProfileImage.setImageResource(android.R.color.transparent);
         imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(tweet.getUser().getScreenName());
+        tvCreatedAt.setText(DateUtil.getRelativeTimeAgo(tweet.getCreateAt(),
+                DateUtil.TWITTER_TIME_FORMAT));
         tvTweetBody.setText(tweet.getBody());
 
         return v;
