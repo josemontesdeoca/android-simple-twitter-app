@@ -4,6 +4,7 @@
     <item 
         android:id="@+id/action_tweet"
         android:showAsAction="always"
+        android:onClick="onCompose"
         android:title="@string/action_tweet_label"/>
 
 </menu>

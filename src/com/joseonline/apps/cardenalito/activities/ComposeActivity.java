@@ -1,6 +1,8 @@
 
 package com.joseonline.apps.cardenalito.activities;
 
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,17 +11,25 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.activeandroid.util.Log;
+import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
+import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ComposeActivity extends Activity {
+    private static final int MAX_TWEET_LENGTH = 140;
 
     private ImageView ivAuthProfileImage;
     private TextView tvAuthUserName;
     private TextView tvAuthUserScreenName;
     private EditText etComposeTweet;
+
+    private TwitterClient client;
 
     private User authenticatedUser;
 
@@ -27,6 +37,8 @@ public class ComposeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        client = CardenalitoApplication.getRestClient();
 
         authenticatedUser = (User) getIntent().getSerializableExtra(
                 TimelineActivity.AUTHENTICATED_USER_KEY);
@@ -70,4 +82,29 @@ public class ComposeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onCompose(MenuItem item) {
+        String tweet = etComposeTweet.getText().toString();
+
+        if (tweet.length() > MAX_TWEET_LENGTH) {
+            Toast.makeText(this, "Text should be less than 140 characters", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
+        client.postTweet(tweet, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject arg0) {
+                Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Throwable e, String s) {
+                Log.d("debug", e.toString());
+                Log.d("debug", s.toString());
+                Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
