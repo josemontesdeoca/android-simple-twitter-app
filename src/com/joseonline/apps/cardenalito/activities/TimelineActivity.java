@@ -110,6 +110,14 @@ public class TimelineActivity extends Activity {
     public void onCompose(MenuItem item) {
         Intent i = new Intent(this, ComposeActivity.class);
         i.putExtra(AUTHENTICATED_USER_KEY, authenticatedUser);
-        startActivity(i);
+        startActivityForResult(i, COMPOSE_TWEET_REQUEST_CODE);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == COMPOSE_TWEET_REQUEST_CODE) {
+            Tweet newTweet = (Tweet) data.getSerializableExtra(Tweet.TWEET_KEY);
+            aTweets.insert(newTweet, 0);
+        }
     }
 }

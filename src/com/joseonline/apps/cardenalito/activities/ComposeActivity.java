@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import com.activeandroid.util.Log;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -93,8 +95,13 @@ public class ComposeActivity extends Activity {
 
         client.postTweet(tweet, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(JSONObject arg0) {
+            public void onSuccess(JSONObject jsonObject) {
                 Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
+                Tweet tweet = Tweet.fromJSON(jsonObject);
+                
+                Intent data = new Intent();
+                data.putExtra(Tweet.TWEET_KEY, tweet);
+                setResult(RESULT_OK, data);
                 finish();
             }
 
