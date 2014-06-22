@@ -7,8 +7,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ public class ComposeActivity extends Activity {
     private TextView tvAuthUserName;
     private TextView tvAuthUserScreenName;
     private EditText etComposeTweet;
+    private TextView tvCharsLeft;
 
     private TwitterClient client;
 
@@ -46,6 +50,8 @@ public class ComposeActivity extends Activity {
                 TimelineActivity.AUTHENTICATED_USER_KEY);
 
         setupView();
+
+        setupListeners();
     }
 
     private void setupView() {
@@ -67,10 +73,50 @@ public class ComposeActivity extends Activity {
         tvAuthUserScreenName.setText(authenticatedUser.getScreenNameWithAt());
     }
 
+    private void setupListeners() {
+        etComposeTweet.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int tweetLenght = s.toString().length();
+
+                tvCharsLeft.setText(String.valueOf(MAX_TWEET_LENGTH - tweetLenght));
+
+                if (tweetLenght > MAX_TWEET_LENGTH) {
+                    tvCharsLeft.setTextColor(getResources().getColor(R.color.darkred));
+                } else {
+                    tvCharsLeft.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.compose, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionViewItem = menu.findItem(R.id.counter);
+        View v = actionViewItem.getActionView();
+
+        tvCharsLeft = (TextView) v.findViewById(R.id.tvCharsLeft);
+
+        tvCharsLeft.setText(String.valueOf(MAX_TWEET_LENGTH));
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -98,7 +144,7 @@ public class ComposeActivity extends Activity {
             public void onSuccess(JSONObject jsonObject) {
                 Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
                 Tweet tweet = Tweet.fromJSON(jsonObject);
-                
+
                 Intent data = new Intent();
                 data.putExtra(Tweet.TWEET_KEY, tweet);
                 setResult(RESULT_OK, data);
