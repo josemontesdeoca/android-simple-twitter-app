@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/ivAuthProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_action_user_profile" 
+        android:contentDescription="@string/profile_image_description"/>
+
+    <TextView
+        android:id="@+id/tvAuthUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/ivAuthProfileImage"
+        android:text="@string/foo_name_label" />
+
+    <TextView
+        android:id="@+id/tvAuthUserScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAuthUserName"
+        android:layout_toRightOf="@+id/ivAuthProfileImage"
+        android:text="@string/foo_label" />
+
+    <EditText
+        android:id="@+id/etComposeTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/ivAuthProfileImage"
+        android:ems="10"
+        android:hint="@string/compose_tweet_hint" />
+
+</RelativeLayout>

@@ -6,8 +6,14 @@
     <string name="login_label">Connect to twitter</string>
     <string name="title_activity_timeline">Home</string>
     <string name="profile_image_description">Profile Image</string>
+    <string name="action_compose_label">Compose</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="compose_tweet_hint">What\'s happening</string>
+    <string name="action_tweet_label">TWEET</string>
+    
+    <string name="foo_name_label">Foo Bar</string>
     <string name="foo_label">\@foo</string>
     <string name="sample_tweet_body_label">This is the tweet body</string>
     <string name="created_at_sample_label">2h</string>
-
+    
 </resources>
