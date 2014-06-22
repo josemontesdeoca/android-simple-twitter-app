@@ -40,6 +40,7 @@
         android:autoLink="all"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/sample_tweet_body_label" />
 

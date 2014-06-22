@@ -7,7 +7,7 @@
     <string name="title_activity_timeline">Home</string>
     <string name="profile_image_description">Profile Image</string>
     <string name="action_compose_label">Compose</string>
-    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="title_activity_compose"></string>
     <string name="compose_tweet_hint">What\'s happening</string>
     <string name="action_tweet_label">TWEET</string>
     

@@ -1,9 +1,11 @@
 
 package com.joseonline.apps.cardenalito.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +35,10 @@ public class ComposeActivity extends Activity {
     }
 
     private void setupView() {
+        // Setup back button on actionBar home icon
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         ivAuthProfileImage = (ImageView) findViewById(R.id.ivAuthProfileImage);
         tvAuthUserName = (TextView) findViewById(R.id.tvAuthUserName);
         tvAuthUserScreenName = (TextView) findViewById(R.id.tvAuthUserScreenName);
@@ -51,6 +57,17 @@ public class ComposeActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.compose, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
