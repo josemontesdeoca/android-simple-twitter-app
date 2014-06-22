@@ -7,8 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class User implements Serializable {
+    public static final String USER_KEY = "user";
+
     private static final long serialVersionUID = 1L;
-    
+
     private long uid;
     private String name;
     private String screenName;
@@ -42,7 +44,7 @@ public class User implements Serializable {
     public String getScreenName() {
         return screenName;
     }
-    
+
     public String getScreenNameWithAt() {
         return "@" + screenName;
     }

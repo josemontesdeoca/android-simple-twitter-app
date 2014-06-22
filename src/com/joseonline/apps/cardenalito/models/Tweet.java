@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Tweet {
+    public static final String TWEET_KEY = "tweet";
+
     private long uid;
     private String body;
     private String createAt;
