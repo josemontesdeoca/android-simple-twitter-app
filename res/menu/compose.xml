@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <item 
+        android:id="@+id/counter"
+        android:showAsAction="always"
+        android:actionLayout="@layout/action_view_compose"/>
+    
+    <item 
         android:id="@+id/action_tweet"
         android:showAsAction="always"
         android:onClick="onCompose"
