@@ -42,6 +42,10 @@ public class User implements Serializable {
     public String getScreenName() {
         return screenName;
     }
+    
+    public String getScreenNameWithAt() {
+        return "@" + screenName;
+    }
 
     public String getProfileImageUrl() {
         return profileImageUrl;
