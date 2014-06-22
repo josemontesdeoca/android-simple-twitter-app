@@ -1,10 +1,14 @@
 
 package com.joseonline.apps.cardenalito.models;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private long uid;
     private String name;
     private String screenName;
