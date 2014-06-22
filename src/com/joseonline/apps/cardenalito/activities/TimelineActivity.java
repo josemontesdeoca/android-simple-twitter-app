@@ -7,7 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,6 +51,12 @@ public class TimelineActivity extends Activity {
         lvTimeline.setAdapter(aTweets);
 
         populateTimeline(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.timeline, menu);
+        return true;
     }
 
     private void getAuthenticatedUser() {
@@ -96,5 +105,11 @@ public class TimelineActivity extends Activity {
                 Log.d("debug", s.toString());
             }
         });
+    }
+    
+    public void onCompose(MenuItem item) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra(AUTHENTICATED_USER_KEY, authenticatedUser);
+        startActivity(i);
     }
 }

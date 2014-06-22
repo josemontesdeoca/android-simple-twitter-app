@@ -47,6 +47,10 @@
             android:name="com.joseonline.apps.cardenalito.activities.TimelineActivity"
             android:label="@string/title_activity_timeline" >
         </activity>
+        <activity
+            android:name="com.joseonline.apps.cardenalito.activities.ComposeActivity"
+            android:label="@string/title_activity_compose" >
+        </activity>
     </application>
 
 </manifest>
