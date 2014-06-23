@@ -17,6 +17,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <!-- Database metadata -->
         <meta-data
             android:name="AA_DB_NAME"
             android:value="TwitterClient.db" />
