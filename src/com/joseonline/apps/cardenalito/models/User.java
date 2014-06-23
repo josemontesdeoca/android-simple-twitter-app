@@ -24,7 +24,7 @@ public class User extends Model implements Serializable {
     private String screenName;
     @Column(name = "profile_image_url")
     private String profileImageUrl;
-    
+
     public User() {
         super();
     }

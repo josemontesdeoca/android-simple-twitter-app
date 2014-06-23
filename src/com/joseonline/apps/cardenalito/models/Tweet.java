@@ -18,7 +18,7 @@ public class Tweet extends Model implements Serializable {
 
     public static final String TWEET_KEY = "tweet";
     
-    @Column(name = "id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(name = "remote_id", unique = true)
     private long uid;
     @Column(name = "body")
     private String body;
