@@ -102,7 +102,7 @@ public class TimelineActivity extends Activity {
             public void onRefresh() {
                 Tweet newestTweet = aTweets.getItem(0);
                 Long newstTweetId = newestTweet.getUid();
-                
+
                 refreshTimeline(String.valueOf(newstTweetId));
             }
         });
@@ -128,11 +128,8 @@ public class TimelineActivity extends Activity {
         client.refreshHomeTimeline(sinceId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonArray) {
-                // HACK -- clear the current list view and populate with
-                // tweets since and let the endless scrolling request what's next.
-                //
-                // TODO: Improve pagination by levering since_id and max_id w/ current
-                // tweets already in memory.
+                // TODO: Improve pagination by making sure all tweets between since_id and the 
+                // refresh are fetch
                 // https://dev.twitter.com/docs/working-with-timelines
 
                 ArrayList<Tweet> newTweets = Tweet.fromJSONArray(jsonArray);
