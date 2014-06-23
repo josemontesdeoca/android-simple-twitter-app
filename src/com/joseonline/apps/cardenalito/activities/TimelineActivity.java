@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.activeandroid.util.Log;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
@@ -24,6 +24,9 @@ import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
 public class TimelineActivity extends Activity {
     public static final int COMPOSE_TWEET_REQUEST_CODE = 1;
     public static final String AUTHENTICATED_USER_KEY = "authenticatedUser";
@@ -32,7 +35,7 @@ public class TimelineActivity extends Activity {
     private ArrayList<Tweet> tweets;
     private ArrayAdapter<Tweet> aTweets;
 
-    private ListView lvTimeline;
+    private PullToRefreshListView lvTimeline;
     private User authenticatedUser;
 
     @Override
@@ -68,25 +71,39 @@ public class TimelineActivity extends Activity {
 
             @Override
             public void onFailure(Throwable e, String s) {
-                Log.d("debug", e.toString());
-                Log.d("debug", s.toString());
+                Log.d("DEBUG", e.toString());
+                Log.d("DEBUG", s.toString());
             }
         });
 
     }
 
     private void setupViews() {
-        lvTimeline = (ListView) findViewById(R.id.lvTimeline);
+        lvTimeline = (PullToRefreshListView) findViewById(R.id.lvTimeline);
 
         // Endless scrolling
         lvTimeline.setOnScrollListener(new EndlessScrollListener() {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                Tweet oldestTweet = aTweets.getItem(aTweets.getCount() - 1);
-                Long oldestTweetId = oldestTweet.getUid();
+                if (!aTweets.isEmpty()) {
+                    Tweet oldestTweet = aTweets.getItem(aTweets.getCount() - 1);
+                    Long oldestTweetId = oldestTweet.getUid();
 
-                populateTimeline(String.valueOf(oldestTweetId - 1));
+                    populateTimeline(String.valueOf(oldestTweetId - 1));
+                }
+            }
+        });
+
+        // Pull to refresh listener
+        lvTimeline.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                Tweet newestTweet = aTweets.getItem(0);
+                Long newstTweetId = newestTweet.getUid();
+                
+                refreshTimeline(String.valueOf(newstTweetId));
             }
         });
     }
@@ -95,24 +112,62 @@ public class TimelineActivity extends Activity {
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray json) {
-                Log.d("debug", json.toString());
+                Log.d("DEBUG", json.toString());
                 aTweets.addAll(Tweet.fromJSONArray(json));
             }
 
             @Override
             public void onFailure(Throwable e, String s) {
-                Log.d("debug", e.toString());
-                Log.d("debug", s.toString());
+                Log.d("DEBUG", e.toString());
+                Log.d("DEBUG", s.toString());
             }
         });
     }
-    
+
+    private void refreshTimeline(String sinceId) {
+        client.refreshHomeTimeline(sinceId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONArray jsonArray) {
+                // HACK -- clear the current list view and populate with
+                // tweets since and let the endless scrolling request what's next.
+                //
+                // TODO: Improve pagination by levering since_id and max_id w/ current
+                // tweets already in memory.
+                // https://dev.twitter.com/docs/working-with-timelines
+
+                ArrayList<Tweet> newTweets = Tweet.fromJSONArray(jsonArray);
+
+                if (!newTweets.isEmpty()) {
+                    for (int i = 0; i < newTweets.size(); i++) {
+                        aTweets.insert(newTweets.get(i), i);
+                    }
+                    Toast.makeText(TimelineActivity.this, "You are now up-to-date",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TimelineActivity.this, "Things look quiet in Twitter",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                lvTimeline.onRefreshComplete();
+            }
+
+            @Override
+            public void onFailure(Throwable e, String s) {
+                Log.d("DEBUG", s.toString());
+                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+                Toast.makeText(TimelineActivity.this, "Twitter is funky. Try again",
+                        Toast.LENGTH_SHORT).show();
+                lvTimeline.onRefreshComplete();
+            }
+        });
+    }
+
     public void onCompose(MenuItem item) {
         Intent i = new Intent(this, ComposeActivity.class);
         i.putExtra(AUTHENTICATED_USER_KEY, authenticatedUser);
         startActivityForResult(i, COMPOSE_TWEET_REQUEST_CODE);
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == COMPOSE_TWEET_REQUEST_CODE) {

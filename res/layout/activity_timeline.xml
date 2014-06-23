@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
 
-    <ListView
+    <eu.erikw.PullToRefreshListView
         android:id="@+id/lvTimeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
-
-    </ListView>
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
