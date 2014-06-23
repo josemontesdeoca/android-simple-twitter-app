@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/white" >
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -15,27 +16,32 @@
     
     <TextView
         android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UserName"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
+        android:text="@string/foo_name_label" />
+    
+    <TextView
+        android:id="@+id/tvScreenName"
+        style="@style/ScreenName"
+        android:layout_alignBaseline="@+id/tvUserName"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_marginLeft="5dp"
         android:text="@string/foo_label" />
     
     <TextView
         android:id="@+id/tvCreatedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvUserName"
+        style="@style/CreatedAt"
+        android:layout_alignBaseline="@+id/tvUserName"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:text="@string/created_at_sample_label" />
 
     <TextView
         android:id="@+id/tvTweetBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TweetBody"
         android:layout_below="@+id/tvUserName"
         android:autoLink="all"
         android:layout_toRightOf="@+id/ivProfileImage"
@@ -43,7 +49,5 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/sample_tweet_body_label" />
-
-    
 
 </RelativeLayout>
