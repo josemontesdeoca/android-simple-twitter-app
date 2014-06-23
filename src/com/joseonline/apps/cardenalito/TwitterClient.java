@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 public class TwitterClient extends OAuthBaseClient {
     private static final String COUNT_PARAMETER = "count";
     private static final String MAX_ID_PARAMETER = "max_id";
+    private static final String SINCE_ID_PARAMETER = "since_id";
     private static final String STATUS_PARAMETER = "status";
 
     private static final String HOME_TIMELINE_PATH = "/statuses/home_timeline.json";
@@ -33,6 +34,16 @@ public class TwitterClient extends OAuthBaseClient {
             params.put(MAX_ID_PARAMETER, maxId);
         }
 
+        client.get(apiUrl, params, handler);
+    }
+    
+    public void refreshHomeTimeline(String sinceId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(HOME_TIMELINE_PATH);
+
+        RequestParams params = new RequestParams();
+        params.put(COUNT_PARAMETER, "20");
+        params.put(SINCE_ID_PARAMETER, sinceId);
+        
         client.get(apiUrl, params, handler);
     }
 
