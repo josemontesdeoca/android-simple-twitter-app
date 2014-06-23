@@ -113,8 +113,10 @@ public class TimelineActivity extends Activity {
             @Override
             public void onSuccess(JSONArray json) {
                 Log.d("DEBUG", json.toString());
-
-                aTweets.addAll(Tweet.fromJSONArray(json));
+                
+                ArrayList<Tweet> tweetArray = Tweet.fromJSONArray(json);
+                aTweets.addAll(tweetArray);
+                saveData(tweetArray);
             }
 
             @Override
@@ -141,6 +143,7 @@ public class TimelineActivity extends Activity {
                     for (int i = 0; i < newTweets.size(); i++) {
                         aTweets.insert(newTweets.get(i), i);
                     }
+                    saveData(newTweets);
                     Toast.makeText(TimelineActivity.this, "You are now up-to-date",
                             Toast.LENGTH_SHORT).show();
                 } else {
@@ -173,6 +176,14 @@ public class TimelineActivity extends Activity {
         if (resultCode == RESULT_OK && requestCode == COMPOSE_TWEET_REQUEST_CODE) {
             Tweet newTweet = (Tweet) data.getSerializableExtra(Tweet.TWEET_KEY);
             aTweets.insert(newTweet, 0);
+        }
+    }
+    
+    private void saveData(ArrayList<Tweet> tweets) {
+        Log.d("DEBUG", "Saving Tweets and User data");
+        for (Tweet tweet : tweets) {
+            tweet.getUser().save();
+            tweet.save();
         }
     }
 }
