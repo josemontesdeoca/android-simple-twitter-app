@@ -12,5 +12,7 @@
     <color name="darkgreen">#FF669900</color>
     <color name="darkorange">#FFFF8800</color>
     <color name="darkred">#FFCC0000</color>
+    <color name="black">#000000</color>
+    <color name="lightgray">#BBBBBB</color>
 
 </resources>
