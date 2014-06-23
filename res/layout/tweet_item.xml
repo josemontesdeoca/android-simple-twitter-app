@@ -28,7 +28,9 @@
         style="@style/ScreenName"
         android:layout_alignBaseline="@+id/tvUserName"
         android:layout_toRightOf="@+id/tvUserName"
+        android:layout_toLeftOf="@+id/tvCreatedAt"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:text="@string/foo_label" />
     
     <TextView
