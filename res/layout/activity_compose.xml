@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}" >
+    tools:context="${packageName}.${activityClass}"
+    android:background="@color/white" >
 
     <ImageView
         android:id="@+id/ivAuthProfileImage"
@@ -16,8 +17,7 @@
 
     <TextView
         android:id="@+id/tvAuthUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UserName"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/ivAuthProfileImage"
@@ -25,8 +25,7 @@
 
     <TextView
         android:id="@+id/tvAuthUserScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ScreenName"
         android:layout_below="@+id/tvAuthUserName"
         android:layout_toRightOf="@+id/ivAuthProfileImage"
         android:text="@string/foo_label" />
