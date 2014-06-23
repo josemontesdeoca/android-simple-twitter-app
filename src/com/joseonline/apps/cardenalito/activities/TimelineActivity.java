@@ -9,12 +9,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.activeandroid.util.Log;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
@@ -113,6 +113,7 @@ public class TimelineActivity extends Activity {
             @Override
             public void onSuccess(JSONArray json) {
                 Log.d("DEBUG", json.toString());
+
                 aTweets.addAll(Tweet.fromJSONArray(json));
             }
 
@@ -128,7 +129,9 @@ public class TimelineActivity extends Activity {
         client.refreshHomeTimeline(sinceId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonArray) {
-                // TODO: Improve pagination by making sure all tweets between since_id and the 
+                Log.d("DEBUG", jsonArray.toString());
+
+                // TODO: Improve pagination by making sure all tweets between since_id and the
                 // refresh are fetch
                 // https://dev.twitter.com/docs/working-with-timelines
 
@@ -151,7 +154,7 @@ public class TimelineActivity extends Activity {
             @Override
             public void onFailure(Throwable e, String s) {
                 Log.d("DEBUG", s.toString());
-                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+                Log.d("DEBUG", "Fetch error: " + e.toString());
                 Toast.makeText(TimelineActivity.this, "Twitter is funky. Try again",
                         Toast.LENGTH_SHORT).show();
                 lvTimeline.onRefreshComplete();
