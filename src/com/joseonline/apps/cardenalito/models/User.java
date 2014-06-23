@@ -6,15 +6,28 @@ import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User implements Serializable {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Users")
+public class User extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String USER_KEY = "user";
 
+    @Column(name = "remote_id", unique = true)
     private long uid;
+    @Column(name = "name")
     private String name;
+    @Column(name = "screen_name")
     private String screenName;
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
+    
+    public User() {
+        super();
+    }
 
     // Factory Method
     // User.fromJSON(..)

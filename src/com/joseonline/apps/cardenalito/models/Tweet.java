@@ -8,15 +8,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tweet implements Serializable {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Tweets")
+public class Tweet extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String TWEET_KEY = "tweet";
-
+    
+    @Column(name = "id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+    @Column(name = "body")
     private String body;
+    @Column(name = "create_at")
     private String createAt;
+    @Column(name = "user")
     private User user;
+    
+    public Tweet() {
+        super();
+    }
 
     public long getUid() {
         return uid;
