@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -20,9 +23,9 @@ import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
+import com.joseonline.apps.cardenalito.helpers.DeleteAndSaveTweetsTask;
 import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
 import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
-import com.joseonline.apps.cardenalito.helpers.DeleteAndSaveTweetsTask;
 import com.joseonline.apps.cardenalito.helpers.SaveTweetsTask;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
@@ -84,6 +87,16 @@ public class TimelineActivity extends Activity {
 
     private void setupViews() {
         lvTimeline = (PullToRefreshListView) findViewById(R.id.lvTimeline);
+
+        // OnItemClickListener
+        lvTimeline.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
+                Intent i = new Intent(parent.getContext(), TweetDetailActivity.class);
+                startActivity(i);
+            }
+        });
 
         // Endless scrolling
         lvTimeline.setOnScrollListener(new EndlessScrollListener() {
@@ -168,10 +181,10 @@ public class TimelineActivity extends Activity {
                             aTweets.insert(newTweets.get(i), i);
                         }
                         saveData(newTweets);
-                        
+
                         // Store them on db
                         new SaveTweetsTask().execute(newTweets);
-                        
+
                         Toast.makeText(TimelineActivity.this, "You are now up-to-date",
                                 Toast.LENGTH_SHORT).show();
                     } else {
