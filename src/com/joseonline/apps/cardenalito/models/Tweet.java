@@ -3,6 +3,7 @@ package com.joseonline.apps.cardenalito.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,13 +12,14 @@ import org.json.JSONObject;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Tweets")
 public class Tweet extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String TWEET_KEY = "tweet";
-    
+
     @Column(name = "remote_id", unique = true)
     private long uid;
     @Column(name = "body")
@@ -26,7 +28,7 @@ public class Tweet extends Model implements Serializable {
     private String createAt;
     @Column(name = "user")
     private User user;
-    
+
     public Tweet() {
         super();
     }
@@ -45,6 +47,10 @@ public class Tweet extends Model implements Serializable {
 
     public User getUser() {
         return user;
+    }
+
+    public static List<Tweet> getAll() {
+        return new Select().from(Tweet.class).execute();
     }
 
     public static ArrayList<Tweet> fromJSONArray(JSONArray jsonArray) {

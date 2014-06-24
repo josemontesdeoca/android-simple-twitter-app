@@ -2,6 +2,7 @@
 package com.joseonline.apps.cardenalito.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,12 +16,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
 import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
+import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
 import com.joseonline.apps.cardenalito.helpers.SaveTweetsToDbAsync;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
@@ -111,60 +112,83 @@ public class TimelineActivity extends Activity {
     }
 
     public void populateTimeline(String maxId) {
-        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray json) {
-                Log.d("DEBUG", json.toString());
-                
-                ArrayList<Tweet> tweetArray = Tweet.fromJSONArray(json);
-                aTweets.addAll(tweetArray);
-                saveData(tweetArray);
-            }
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(JSONArray json) {
+                    Log.d("DEBUG", json.toString());
 
-            @Override
-            public void onFailure(Throwable e, String s) {
-                Log.d("DEBUG", e.toString());
-                Log.d("DEBUG", s.toString());
+                    ArrayList<Tweet> tweetArray = Tweet.fromJSONArray(json);
+                    aTweets.addAll(tweetArray);
+                    saveData(tweetArray);
+                }
+
+                @Override
+                public void onFailure(Throwable e, String s) {
+                    Log.d("DEBUG", e.toString());
+                    Log.d("DEBUG", s.toString());
+                }
+            });
+        } else {
+            if (maxId == null) {
+                // First load, get cache tweets from db if any
+                List<Tweet> cacheTweets = Tweet.getAll();
+
+                // Only display if there's actually data returned back
+                if (cacheTweets.size() > 0) {
+                    aTweets.addAll(cacheTweets);
+                    Toast.makeText(this, "Cache tweet view. No internet connectivity",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
-        });
+            // No internet connectivity error
+            Toast.makeText(this, "No internet connectivity. Try again", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     private void refreshTimeline(String sinceId) {
-        client.refreshHomeTimeline(sinceId, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray jsonArray) {
-                Log.d("DEBUG", jsonArray.toString());
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            client.refreshHomeTimeline(sinceId, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(JSONArray jsonArray) {
+                    Log.d("DEBUG", jsonArray.toString());
 
-                // TODO: Improve pagination by making sure all tweets between since_id and the
-                // refresh are fetch
-                // https://dev.twitter.com/docs/working-with-timelines
+                    // TODO: Improve pagination by making sure all tweets between since_id and the
+                    // refresh are fetch
+                    // https://dev.twitter.com/docs/working-with-timelines
 
-                ArrayList<Tweet> newTweets = Tweet.fromJSONArray(jsonArray);
+                    ArrayList<Tweet> newTweets = Tweet.fromJSONArray(jsonArray);
 
-                if (!newTweets.isEmpty()) {
-                    for (int i = 0; i < newTweets.size(); i++) {
-                        aTweets.insert(newTweets.get(i), i);
+                    if (!newTweets.isEmpty()) {
+                        for (int i = 0; i < newTweets.size(); i++) {
+                            aTweets.insert(newTweets.get(i), i);
+                        }
+                        saveData(newTweets);
+                        Toast.makeText(TimelineActivity.this, "You are now up-to-date",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TimelineActivity.this, "Things look quiet in Twitter",
+                                Toast.LENGTH_SHORT).show();
                     }
-                    saveData(newTweets);
-                    Toast.makeText(TimelineActivity.this, "You are now up-to-date",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(TimelineActivity.this, "Things look quiet in Twitter",
-                            Toast.LENGTH_SHORT).show();
                 }
 
-                lvTimeline.onRefreshComplete();
-            }
+                @Override
+                public void onFailure(Throwable e, String s) {
+                    Log.d("DEBUG", s.toString());
+                    Log.d("DEBUG", "Fetch error: " + e.toString());
+                    Toast.makeText(TimelineActivity.this, "Twitter is funky. Try again",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // No internet connectivity error
+            Toast.makeText(this, "Network is acting up. Try again", Toast.LENGTH_SHORT).show();
+        }
 
-            @Override
-            public void onFailure(Throwable e, String s) {
-                Log.d("DEBUG", s.toString());
-                Log.d("DEBUG", "Fetch error: " + e.toString());
-                Toast.makeText(TimelineActivity.this, "Twitter is funky. Try again",
-                        Toast.LENGTH_SHORT).show();
-                lvTimeline.onRefreshComplete();
-            }
-        });
+        lvTimeline.onRefreshComplete();
     }
 
     public void onCompose(MenuItem item) {
@@ -180,7 +204,7 @@ public class TimelineActivity extends Activity {
             aTweets.insert(newTweet, 0);
         }
     }
-    
+
     private void saveData(ArrayList<Tweet> tweets) {
         new SaveTweetsToDbAsync().execute(tweets);
     }
