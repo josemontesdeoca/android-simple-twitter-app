@@ -22,7 +22,8 @@ import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
 import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
 import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
-import com.joseonline.apps.cardenalito.helpers.SaveTweetsToDbAsync;
+import com.joseonline.apps.cardenalito.helpers.DeleteAndSaveTweetsTask;
+import com.joseonline.apps.cardenalito.helpers.SaveTweetsTask;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -167,6 +168,10 @@ public class TimelineActivity extends Activity {
                             aTweets.insert(newTweets.get(i), i);
                         }
                         saveData(newTweets);
+                        
+                        // Store them on db
+                        new SaveTweetsTask().execute(newTweets);
+                        
                         Toast.makeText(TimelineActivity.this, "You are now up-to-date",
                                 Toast.LENGTH_SHORT).show();
                     } else {
@@ -206,6 +211,6 @@ public class TimelineActivity extends Activity {
     }
 
     private void saveData(ArrayList<Tweet> tweets) {
-        new SaveTweetsToDbAsync().execute(tweets);
+        new DeleteAndSaveTweetsTask().execute(tweets);
     }
 }
