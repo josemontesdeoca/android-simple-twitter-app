@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
@@ -181,9 +182,17 @@ public class TimelineActivity extends Activity {
     
     private void saveData(ArrayList<Tweet> tweets) {
         Log.d("DEBUG", "Saving Tweets and User data");
-        for (Tweet tweet : tweets) {
-            tweet.getUser().save();
-            tweet.save();
+        ActiveAndroid.beginTransaction();
+        try {
+            for (Tweet tweet : tweets) {
+                tweet.getUser().save();
+                tweet.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("DEBUG", "Saving to db failed: " + e.toString());
+        } finally {
+            ActiveAndroid.endTransaction();
         }
     }
 }
