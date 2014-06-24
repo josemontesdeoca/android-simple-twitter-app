@@ -178,6 +178,7 @@ public class TimelineActivity extends Activity {
                         Toast.makeText(TimelineActivity.this, "Things look quiet in Twitter",
                                 Toast.LENGTH_SHORT).show();
                     }
+                    lvTimeline.onRefreshComplete();
                 }
 
                 @Override
@@ -186,14 +187,14 @@ public class TimelineActivity extends Activity {
                     Log.d("DEBUG", "Fetch error: " + e.toString());
                     Toast.makeText(TimelineActivity.this, "Twitter is funky. Try again",
                             Toast.LENGTH_SHORT).show();
+                    lvTimeline.onRefreshComplete();
                 }
             });
         } else {
             // No internet connectivity error
             Toast.makeText(this, "Network is acting up. Try again", Toast.LENGTH_SHORT).show();
+            lvTimeline.onRefreshComplete();
         }
-
-        lvTimeline.onRefreshComplete();
     }
 
     public void onCompose(MenuItem item) {
