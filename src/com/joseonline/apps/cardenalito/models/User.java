@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Column.ConflictAction;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "Users")
@@ -16,7 +17,7 @@ public class User extends Model implements Serializable {
 
     public static final String USER_KEY = "user";
 
-    @Column(name = "remote_id", unique = true)
+    @Column(name = "remote_id", unique = true, onUniqueConflict = ConflictAction.IGNORE)
     private long uid;
     @Column(name = "name")
     private String name;
