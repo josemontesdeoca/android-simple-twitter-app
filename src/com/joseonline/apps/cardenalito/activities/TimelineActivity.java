@@ -21,6 +21,7 @@ import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
 import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
+import com.joseonline.apps.cardenalito.helpers.SaveTweetsToDbAsync;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -181,18 +182,6 @@ public class TimelineActivity extends Activity {
     }
     
     private void saveData(ArrayList<Tweet> tweets) {
-        Log.d("DEBUG", "Saving Tweets and User data");
-        ActiveAndroid.beginTransaction();
-        try {
-            for (Tweet tweet : tweets) {
-                tweet.getUser().save();
-                tweet.save();
-            }
-            ActiveAndroid.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("DEBUG", "Saving to db failed: " + e.toString());
-        } finally {
-            ActiveAndroid.endTransaction();
-        }
+        new SaveTweetsToDbAsync().execute(tweets);
     }
 }
