@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_action_user_profile" 
+        android:contentDescription="@string/profile_image_description"/>
+
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/DetailUserName"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:text="@string/foo_name_label" />
+
+    <TextView
+        android:id="@+id/tvUserScreenName"
+        style="@style/DetailScreenName"
+        android:layout_below="@+id/tvUserName"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:text="@string/foo_label" />
+
+    <TextView
+        android:id="@+id/tvTweetBody"
+        style="@style/DetailTweetBody"
+        android:layout_margin="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ivProfileImage"
+        android:text="@string/sample_tweet_body_label" />
+
+</RelativeLayout>

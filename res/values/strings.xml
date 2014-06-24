@@ -10,10 +10,10 @@
     <string name="title_activity_compose"></string>
     <string name="compose_tweet_hint">What\'s happening</string>
     <string name="action_tweet_label">TWEET</string>
-    
     <string name="foo_name_label">Foo Bar</string>
     <string name="foo_label">\@foo</string>
     <string name="sample_tweet_body_label">This is the tweet body</string>
     <string name="created_at_sample_label">2h</string>
-    
+    <string name="title_activity_tweet_detail">Tweet</string>
+
 </resources>
