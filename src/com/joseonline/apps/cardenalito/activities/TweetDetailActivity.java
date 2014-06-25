@@ -56,7 +56,7 @@ public class TweetDetailActivity extends Activity {
         if (tweet.getMediaUrl() != null) {
             ivMediaEntity.setImageResource(android.R.color.transparent);
             ivMediaEntity.setVisibility(View.VISIBLE);
-            imageLoader.displayImage(tweet.getMediaUrlThumb(), ivMediaEntity);
+            imageLoader.displayImage(tweet.getMediaUrlSmall(), ivMediaEntity);
         }
     }
 
