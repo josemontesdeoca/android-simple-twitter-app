@@ -162,6 +162,7 @@ public class TimelineActivity extends Activity {
                     aTweets.addAll(cacheTweets);
                     Toast.makeText(this, "Cache tweet view. No internet connectivity",
                             Toast.LENGTH_SHORT).show();
+                    linlaHeaderProgress.setVisibility(View.GONE);
                     return;
                 }
             }
