@@ -21,6 +21,7 @@ This is an Android demo application which implements a simple Twitter applicatio
  - * [x] Tweets are persisted into sqlite and can be displayed from the local DB
 - * [x] **Advanced:** User can tap a tweet to display a "detailed" view of that tweet
 - * [x] **Advanced:** Improve the user interface and theme the app to feel "twitter branded"
+- * [x] **Bonus:** User can see embedded image media within the tweet detail view
 
 ###Notes:
 
