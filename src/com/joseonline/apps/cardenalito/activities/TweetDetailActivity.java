@@ -4,6 +4,7 @@ package com.joseonline.apps.cardenalito.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class TweetDetailActivity extends Activity {
     private TextView tvUserScreenName;
     private TextView tvTweetBody;
     private TextView tvCreatedAt;
+    private ImageView ivMediaEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class TweetDetailActivity extends Activity {
         tvUserScreenName = (TextView) findViewById(R.id.tvUserScreenName);
         tvTweetBody = (TextView) findViewById(R.id.tvTweetBody);
         tvCreatedAt = (TextView) findViewById(R.id.tvCreatedAt);
+        ivMediaEntity = (ImageView) findViewById(R.id.ivMediaEntity);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -50,6 +53,11 @@ public class TweetDetailActivity extends Activity {
         tvTweetBody.setText(tweet.getBody());
         tvCreatedAt.setText(DateUtil.getFullDate(this, tweet.getCreateAt(),
                 DateUtil.TWITTER_TIME_FORMAT));
+        if (tweet.getMediaUrl() != null) {
+            ivMediaEntity.setImageResource(android.R.color.transparent);
+            ivMediaEntity.setVisibility(View.VISIBLE);
+            imageLoader.displayImage(tweet.getMediaUrlThumb(), ivMediaEntity);
+        }
     }
 
     @Override

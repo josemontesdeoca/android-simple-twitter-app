@@ -13,6 +13,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.Log;
 
 @Table(name = "Tweets")
 public class Tweet extends Model implements Serializable {
@@ -28,6 +29,8 @@ public class Tweet extends Model implements Serializable {
     private String createAt;
     @Column(name = "user")
     private User user;
+    @Column(name = "media_url")
+    private String mediaUrl;
 
     public Tweet() {
         super();
@@ -47,6 +50,14 @@ public class Tweet extends Model implements Serializable {
 
     public User getUser() {
         return user;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+    
+    public String getMediaUrlThumb() {
+        return mediaUrl + ":thumb";
     }
 
     public static List<Tweet> getAll() {
@@ -84,6 +95,19 @@ public class Tweet extends Model implements Serializable {
             tweet.body = jsonObject.getString("text");
             tweet.createAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            
+            // Getting a media Url
+            try {
+                JSONObject entities = jsonObject.getJSONObject("entities");
+                JSONArray media = entities.getJSONArray("media");
+                if (media.length() > 0) {
+                    Log.d("DEBUG", "A tweet with media object");
+                    tweet.mediaUrl = media.getJSONObject(0).getString("media_url");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
