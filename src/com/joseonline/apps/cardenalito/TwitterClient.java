@@ -1,9 +1,6 @@
 
 package com.joseonline.apps.cardenalito;
 
-import org.scribe.builder.api.Api;
-import org.scribe.builder.api.TwitterApi;
-
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
@@ -11,23 +8,56 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class TwitterClient extends OAuthBaseClient {
-    public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class;
-    public static final String REST_URL = "https://api.twitter.com/1.1";
-    public static final String REST_CONSUMER_KEY = "SOME_KEY";
-    public static final String REST_CONSUMER_SECRET = "SOME_SECRET";
-    public static final String REST_CALLBACK_URL = "oauth://cardenalito";
+    private static final String COUNT_PARAMETER = "count";
+    private static final String MAX_ID_PARAMETER = "max_id";
+    private static final String SINCE_ID_PARAMETER = "since_id";
+    private static final String STATUS_PARAMETER = "status";
+
+    private static final String HOME_TIMELINE_PATH = "/statuses/home_timeline.json";
+    private static final String ACCOUNT_VERIFY_CREDENTIALS_PATH = "/account/verify_credentials.json";
+    private static final String POST_TWEET_PATH = "/statuses/update.json";
 
     public TwitterClient(Context context) {
-        super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET,
-                REST_CALLBACK_URL);
+        super(context, TwitterClientSettings.REST_API_CLASS, TwitterClientSettings.REST_URL,
+                TwitterClientSettings.REST_CONSUMER_KEY,
+                TwitterClientSettings.REST_CONSUMER_SECRET,
+                TwitterClientSettings.REST_CALLBACK_URL);
     }
 
-    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("/statuses/home_timeline.json");
-        
+    public void getHomeTimeline(String maxId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(HOME_TIMELINE_PATH);
+
         RequestParams params = new RequestParams();
-        params.put("since_id", "1");
+        params.put(COUNT_PARAMETER, "20");
+
+        if (maxId != null) {
+            params.put(MAX_ID_PARAMETER, maxId);
+        }
+
+        client.get(apiUrl, params, handler);
+    }
+    
+    public void refreshHomeTimeline(String sinceId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(HOME_TIMELINE_PATH);
+
+        RequestParams params = new RequestParams();
+        params.put(COUNT_PARAMETER, "20");
+        params.put(SINCE_ID_PARAMETER, sinceId);
         
         client.get(apiUrl, params, handler);
+    }
+
+    public void getAuthenticatedUser(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(ACCOUNT_VERIFY_CREDENTIALS_PATH);
+        client.get(apiUrl, handler);
+    }
+    
+    public void postTweet(String tweet, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(POST_TWEET_PATH);
+        
+        RequestParams params = new RequestParams();
+        params.put(STATUS_PARAMETER, tweet);
+        
+        client.post(apiUrl, params, handler);
     }
 }
