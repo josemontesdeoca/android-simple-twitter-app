@@ -52,8 +52,10 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
                 DateUtil.TWITTER_TIME_FORMAT));
         tvTweetBody.setText(tweet.getBody());
         
+        ivMediaEntity.setImageResource(android.R.color.transparent);
+        ivMediaEntity.setVisibility(View.GONE);
+        
         if (tweet.getMediaUrl() != null) {
-            ivMediaEntity.setImageResource(android.R.color.transparent);
             ivMediaEntity.setVisibility(View.VISIBLE);
             imageLoader.displayImage(tweet.getMediaUrlThumb(), ivMediaEntity);
         }
