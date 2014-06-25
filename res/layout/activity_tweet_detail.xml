@@ -39,12 +39,22 @@
         android:layout_margin="10dp"
         android:text="@string/sample_tweet_body_label" />
 
+    <ImageView
+        android:id="@+id/ivMediaEntity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/tvTweetBody"
+        android:src="@drawable/ic_action_user_profile" 
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/tvCreatedAt"
         style="@style/CreatedAt"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ivMediaEntity"
         android:layout_margin="10dp"
-        android:layout_below="@+id/tvTweetBody"
         android:text="@string/created_at_sample_label" />
 
 </RelativeLayout>
