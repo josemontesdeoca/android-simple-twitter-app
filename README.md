@@ -19,6 +19,7 @@ This is an Android demo application which implements a simple Twitter applicatio
 - * [x] **Advanced:** User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
 - * [x] **Advanced:** User can open the twitter app offline and see last loaded tweets
  - * [x] Tweets are persisted into sqlite and can be displayed from the local DB
+- * [x] **Advanced:** User can tap a tweet to display a "detailed" view of that tweet
 
 ###Notes:
 
