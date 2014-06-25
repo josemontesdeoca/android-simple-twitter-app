@@ -32,9 +32,19 @@
     <TextView
         android:id="@+id/tvTweetBody"
         style="@style/DetailTweetBody"
-        android:layout_margin="10dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:autoLink="all"
         android:layout_below="@+id/ivProfileImage"
+        android:layout_margin="10dp"
         android:text="@string/sample_tweet_body_label" />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        style="@style/CreatedAt"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/tvTweetBody"
+        android:text="@string/created_at_sample_label" />
 
 </RelativeLayout>
