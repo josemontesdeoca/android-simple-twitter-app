@@ -59,6 +59,10 @@ public class Tweet extends Model implements Serializable {
     public String getMediaUrlThumb() {
         return mediaUrl + ":thumb";
     }
+    
+    public String getMediaUrlSmall() {
+        return mediaUrl + ":small";
+    }
 
     public static List<Tweet> getAll() {
         return new Select().from(Tweet.class).execute();
