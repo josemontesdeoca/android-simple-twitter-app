@@ -54,5 +54,17 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/sample_tweet_body_label" />
+    
+    <ImageView
+        android:id="@+id/ivMediaEntity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvTweetBody"
+        android:layout_below="@+id/tvTweetBody"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_action_user_profile" 
+        android:visibility="gone"/>
 
 </RelativeLayout>
