@@ -3,6 +3,7 @@ package com.joseonline.apps.cardenalito.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,9 @@ public class TweetDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet_detail);
-        
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Get data from the parent activity
         tweet = (Tweet) getIntent().getSerializableExtra(Tweet.TWEET_KEY);
 
@@ -37,7 +40,7 @@ public class TweetDetailActivity extends Activity {
         tvUserScreenName = (TextView) findViewById(R.id.tvUserScreenName);
         tvTweetBody = (TextView) findViewById(R.id.tvTweetBody);
         tvCreatedAt = (TextView) findViewById(R.id.tvCreatedAt);
-        
+
         ImageLoader imageLoader = ImageLoader.getInstance();
 
         ivProfileImage.setImageResource(android.R.color.transparent);
@@ -47,5 +50,16 @@ public class TweetDetailActivity extends Activity {
         tvTweetBody.setText(tweet.getBody());
         tvCreatedAt.setText(DateUtil.getFullDate(this, tweet.getCreateAt(),
                 DateUtil.TWITTER_TIME_FORMAT));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
