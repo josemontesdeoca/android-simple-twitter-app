@@ -94,6 +94,8 @@ public class TimelineActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
                 Intent i = new Intent(parent.getContext(), TweetDetailActivity.class);
+                Tweet tweet = tweets.get(position);
+                i.putExtra(Tweet.TWEET_KEY, tweet);
                 startActivity(i);
             }
         });
