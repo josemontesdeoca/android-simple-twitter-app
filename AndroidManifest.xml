@@ -18,7 +18,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
+
         <!-- Database metadata -->
         <meta-data
             android:name="AA_DB_NAME"
@@ -53,6 +53,10 @@
         <activity
             android:name="com.joseonline.apps.cardenalito.activities.ComposeActivity"
             android:label="@string/title_activity_compose" >
+        </activity>
+        <activity
+            android:name="com.joseonline.apps.cardenalito.activities.TweetDetailActivity"
+            android:label="@string/title_activity_tweet_detail" >
         </activity>
     </application>
 
