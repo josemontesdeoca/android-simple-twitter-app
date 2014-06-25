@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
@@ -44,6 +45,7 @@ public class TimelineActivity extends Activity {
 
     private PullToRefreshListView lvTimeline;
     private User authenticatedUser;
+    private LinearLayout linlaHeaderProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,11 @@ public class TimelineActivity extends Activity {
     }
 
     private void setupViews() {
+        // Progress bar
+        linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+        linlaHeaderProgress.setVisibility(View.VISIBLE);
+
+        // ListView
         lvTimeline = (PullToRefreshListView) findViewById(R.id.lvTimeline);
 
         // OnItemClickListener
@@ -160,9 +167,8 @@ public class TimelineActivity extends Activity {
             }
             // No internet connectivity error
             Toast.makeText(this, "No internet connectivity. Try again", Toast.LENGTH_SHORT).show();
-
         }
-
+        linlaHeaderProgress.setVisibility(View.GONE);
     }
 
     private void refreshTimeline(String sinceId) {
