@@ -20,7 +20,7 @@
                 android:width="1dp"
                 android:color="#4b9ed1" />
             <corners
-                android:radius="1dp" />
+                android:radius="4dp" />
 
         </shape>
     </item>
