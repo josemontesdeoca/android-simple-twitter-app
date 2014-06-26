@@ -13,10 +13,70 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="Theme.Simple_twitter_app" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simple_twitter_app</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simple_twitter_app</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simple_twitter_app</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simple_twitter_app</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Simple_twitter_app</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Simple_twitter_app</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_simple_twitter_app</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simple_twitter_app</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simple_twitter_app</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="ActionBar.Solid.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_simple_twitter_app</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simple_twitter_app</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simple_twitter_app</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Simple_twitter_app</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
     </style>
     
+    <!-- ActionBar title text -->
+    <style name="ActionBar.TitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_simple_twitter_app</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Simple_twitter_app</item>
+    </style>
+
+    <style name="PopupMenu.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simple_twitter_app</item>    
+    </style>
+
+    <style name="DropDownListView.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_simple_twitter_app</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_simple_twitter_app</item>
+    </style>
+
+    <style name="DropDownNav.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_simple_twitter_app</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simple_twitter_app</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_simple_twitter_app</item>
+    </style>
+    
+    <style name="ProgressBar.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_simple_twitter_app</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Simple_twitter_app" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_simple_twitter_app</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Simple_twitter_app.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simple_twitter_app</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simple_twitter_app</item>
+    </style>
+    
+    <!-- UI themed -->
     <style name="ButtonText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
