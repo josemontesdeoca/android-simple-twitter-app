@@ -24,7 +24,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingRight="10dp"
-            android:paddingLeft="40dp"
+            android:paddingLeft="45dp"
             android:layout_margin="4dp" 
             android:background="@drawable/layers_twitter_btn_bg"
             style="@style/ButtonText"/>
