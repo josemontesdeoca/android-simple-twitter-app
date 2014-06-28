@@ -2,37 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}"
-    android:background="#e5e5e5" >
+    android:background="#e5e5e5"
+    tools:context="${packageName}.${activityClass}" >
 
-    <eu.erikw.PullToRefreshListView
-        android:id="@+id/lvTimeline"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:divider="@null"
-        android:dividerHeight="6dp"
-        android:headerDividersEnabled="true"
-        android:footerDividersEnabled="true" />
-    
-    <LinearLayout
-        android:id="@+id/linlaHeaderProgress"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone" >
-        
-	    <ProgressBar
-	        android:id="@+id/pbLoading"
-	        style="@android:attr/progressBarStyleLarge"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	</LinearLayout>
+        android:layout_alignParentTop="true" >
+
+    </FrameLayout>
 
 </RelativeLayout>
