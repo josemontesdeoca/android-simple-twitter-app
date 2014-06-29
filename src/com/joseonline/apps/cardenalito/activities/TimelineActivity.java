@@ -82,6 +82,11 @@ public class TimelineActivity extends FragmentActivity {
         i.putExtra(AUTHENTICATED_USER_KEY, authenticatedUser);
         startActivityForResult(i, COMPOSE_TWEET_REQUEST_CODE);
     }
+    
+    public void onProfileView(MenuItem item) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

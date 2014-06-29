@@ -26,6 +26,12 @@ public class User extends Model implements Serializable {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    private int tweetsCount;
+    private int followers;
+    private int friends;
+    private String description;
+    private String location;
+
     public User() {
         super();
     }
@@ -40,6 +46,12 @@ public class User extends Model implements Serializable {
             user.name = jsonObject.getString("name");
             user.screenName = jsonObject.getString("screen_name");
             user.profileImageUrl = jsonObject.getString("profile_image_url");
+            user.tweetsCount = jsonObject.getInt("statuses_count");
+            user.followers = jsonObject.getInt("followers_count");
+            user.friends = jsonObject.getInt("friends_count");
+            user.description = jsonObject.getString("description");
+            user.location = jsonObject.getString("location");
+
         } catch (JSONException e) {
 
         }
@@ -65,6 +77,26 @@ public class User extends Model implements Serializable {
 
     public String getProfileImageUrl() {
         return profileImageUrl;
+    }
+
+    public int getTweetsCount() {
+        return tweetsCount;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public int getFriends() {
+        return friends;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
 }
