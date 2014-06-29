@@ -17,6 +17,7 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String ACCOUNT_VERIFY_CREDENTIALS_PATH = "/account/verify_credentials.json";
     private static final String POST_TWEET_PATH = "/statuses/update.json";
     private static final String MENTIONS_TIMELINE_PATH = "/statuses/mentions_timeline.json";
+    private static final String USER_TIMELINE_PATH = "/statuses/user_timeline.json";
 
     public TwitterClient(Context context) {
         super(context, TwitterClientSettings.REST_API_CLASS, TwitterClientSettings.REST_URL,
@@ -68,6 +69,19 @@ public class TwitterClient extends OAuthBaseClient {
         params.put(COUNT_PARAMETER, "20");
         params.put(SINCE_ID_PARAMETER, sinceId);
         
+        client.get(apiUrl, params, handler);
+    }
+    
+    public void getUserTimeline(String maxId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(USER_TIMELINE_PATH);
+
+        RequestParams params = new RequestParams();
+        params.put(COUNT_PARAMETER, "20");
+
+        if (maxId != null) {
+            params.put(MAX_ID_PARAMETER, maxId);
+        }
+
         client.get(apiUrl, params, handler);
     }
 
