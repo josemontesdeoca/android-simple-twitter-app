@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/profile_image_description"
+            android:src="@android:drawable/screen_background_light_transparent" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            style="@style/DetailUserName"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="@string/foo_name_label" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            style="@style/DetailScreenName"
+            android:layout_below="@+id/tvUserName"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="@string/foo_label" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vDivider1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rlHeader"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/llCounts"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vDivider1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle" >
+
+        <TextView
+            android:id="@+id/tvTweets"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="400 Tweets" />
+
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="5 Following" />
+
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="5 Followers" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vDivider2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/llCounts"
+        android:background="@android:color/darker_gray" />
+
+    <fragment
+        android:id="@+id/fragmentUserTimeline"
+        android:name="com.joseonline.apps.cardenalito.fragments.UserTimelineFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/vDivider2"
+        tools:layout="@layout/fragment_tweets_list" />
+
+</RelativeLayout>

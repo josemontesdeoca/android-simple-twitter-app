@@ -15,5 +15,8 @@
     <string name="sample_tweet_body_label">This is the tweet body</string>
     <string name="created_at_sample_label">2h</string>
     <string name="title_activity_tweet_detail">Tweet</string>
+    <string name="action_profile_label">Profile</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
