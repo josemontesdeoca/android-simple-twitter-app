@@ -2,9 +2,19 @@
 
 This is an Android demo application which implements a simple Twitter application making use of the [android-rest-client-template](https://github.com/thecodepath/android-rest-client-template) and [Twitter REST API](https://dev.twitter.com/docs/api/1.1)
 
-**Time spent:** ~15 hrs
+**Time spent:** 
+- **W3** ~20 hrs 
+- **W4** ~8 hrs
 
-###Completed user stories
+###Completed user stories W4
+- * [x] User can switch between Timeline and Mention views using tabs.
+ - * [x] User can view their home timeline tweets.
+ - * [x] User can view the recent mentions of their username.
+ - * [x] User can scroll to bottom of either of these lists and new tweets will load ("infinite scroll")'
+- * [x] User can navigate to view their own profile
+ - * [x] User can see picture, tagline, # of followers, # of following, and tweets on their profile.
+
+###Completed user stories W3
 - * [x] User can sign in to Twitter using OAuth login
 - * [x] User can view the tweets from their home timeline
  - * [x] User should be able to see the username, name, body and timestamp for each tweet
