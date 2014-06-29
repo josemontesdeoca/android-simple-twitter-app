@@ -17,6 +17,6 @@
     <string name="title_activity_tweet_detail">Tweet</string>
     <string name="action_profile_label">Profile</string>
     <string name="title_activity_profile">Profile</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="action_signout_label">Sign Out</string>
 
 </resources>

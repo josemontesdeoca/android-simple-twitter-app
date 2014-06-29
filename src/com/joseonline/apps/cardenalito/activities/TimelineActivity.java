@@ -87,6 +87,15 @@ public class TimelineActivity extends FragmentActivity {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
     }
+    
+    public void onSignOut(MenuItem item) {
+        CardenalitoApplication.getRestClient().clearAccessToken();
+        
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -34,7 +34,7 @@ This is an Android demo application which implements a simple Twitter applicatio
 - * [x] **Bonus:** User can see embedded image media within the tweet detail view
 
 ###Notes:
-
+- Add "Sign out" feature.
 
 ###Walkthrough of all user stories:
 
