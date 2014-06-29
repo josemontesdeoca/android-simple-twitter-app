@@ -22,19 +22,22 @@ import android.widget.Toast;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.activities.ProfileActivity;
 import com.joseonline.apps.cardenalito.activities.TweetDetailActivity;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
+import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter.OnTweetClickListener;
 import com.joseonline.apps.cardenalito.helpers.DeleteAndSaveTweetsTask;
 import com.joseonline.apps.cardenalito.helpers.EndlessScrollListener;
 import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
 import com.joseonline.apps.cardenalito.helpers.SaveTweetsTask;
 import com.joseonline.apps.cardenalito.models.Tweet;
+import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
-public abstract class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment implements OnTweetClickListener {
 
     protected TwitterClient client;
 
@@ -48,9 +51,9 @@ public abstract class TweetsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         client = CardenalitoApplication.getRestClient();
-        
+
         tweets = new ArrayList<Tweet>();
-        aTweets = new TweetArrayAdapter(getActivity(), tweets);
+        aTweets = new TweetArrayAdapter(getActivity(), tweets, this);
     }
 
     @Override
@@ -238,4 +241,14 @@ public abstract class TweetsListFragment extends Fragment {
     private void saveData(ArrayList<Tweet> tweets) {
         new DeleteAndSaveTweetsTask().execute(tweets);
     }
+
+    @Override
+    public void onProfileImageClick(User user) {
+        Toast.makeText(getActivity(), "User: " + user.getScreenName(), Toast.LENGTH_SHORT).show();
+        
+        Intent i = new Intent(getActivity(), ProfileActivity.class);
+        i.putExtra(User.USER_KEY, user);
+        startActivity(i);
+    }
+
 }

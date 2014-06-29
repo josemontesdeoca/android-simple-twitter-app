@@ -86,14 +86,12 @@
         android:layout_below="@+id/llCounts"
         android:background="@android:color/darker_gray" />
 
-    <fragment
-        android:id="@+id/fragmentUserTimeline"
-        android:name="com.joseonline.apps.cardenalito.fragments.UserTimelineFragment"
+    <FrameLayout
+        android:id="@+id/flTimelineContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/vDivider2"
-        tools:layout="@layout/fragment_tweets_list" />
+        android:layout_below="@+id/vDivider2" />
 
 </RelativeLayout>

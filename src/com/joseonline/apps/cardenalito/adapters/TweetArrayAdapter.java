@@ -14,12 +14,20 @@ import android.widget.TextView;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.helpers.DateUtil;
 import com.joseonline.apps.cardenalito.models.Tweet;
+import com.joseonline.apps.cardenalito.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
-    public TweetArrayAdapter(Context context, List<Tweet> tweets) {
+    private OnTweetClickListener listener;
+
+    public interface OnTweetClickListener {
+        public void onProfileImageClick(User user);
+    }
+
+    public TweetArrayAdapter(Context context, List<Tweet> tweets, OnTweetClickListener listener) {
         super(context, 0, tweets);
+        this.listener = listener;
     }
 
     @Override
@@ -44,6 +52,17 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
+        // Set profile image listener
+        ivProfileImage.setTag(tweet.getUser());
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                User user = (User) v.getTag();
+                listener.onProfileImageClick(user);
+            }
+        });
+
         ivProfileImage.setImageResource(android.R.color.transparent);
         imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(tweet.getUser().getName());
@@ -51,10 +70,10 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         tvCreatedAt.setText(DateUtil.getRelativeTimeAgo(tweet.getCreateAt(),
                 DateUtil.TWITTER_TIME_FORMAT));
         tvTweetBody.setText(tweet.getBody());
-        
+
         ivMediaEntity.setImageResource(android.R.color.transparent);
         ivMediaEntity.setVisibility(View.GONE);
-        
+
         if (tweet.getMediaUrl() != null) {
             ivMediaEntity.setVisibility(View.VISIBLE);
             imageLoader.displayImage(tweet.getMediaUrlThumb(), ivMediaEntity);
