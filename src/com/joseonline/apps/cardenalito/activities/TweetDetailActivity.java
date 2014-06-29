@@ -2,6 +2,7 @@
 package com.joseonline.apps.cardenalito.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.helpers.DateUtil;
 import com.joseonline.apps.cardenalito.models.Tweet;
+import com.joseonline.apps.cardenalito.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetDetailActivity extends Activity {
@@ -69,5 +71,11 @@ public class TweetDetailActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onProfileImageClick(View v) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra(User.USER_KEY, tweet.getUser());
+        startActivity(i);
     }
 }
