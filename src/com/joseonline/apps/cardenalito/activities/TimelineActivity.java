@@ -13,22 +13,16 @@ import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.fragments.HomeTimelineFragment;
 import com.joseonline.apps.cardenalito.fragments.MentionsTimelineFragment;
-import com.joseonline.apps.cardenalito.fragments.TweetsListFragment;
 import com.joseonline.apps.cardenalito.listeners.FragmentTabListener;
 import com.joseonline.apps.cardenalito.models.Tweet;
 
 public class TimelineActivity extends FragmentActivity {
     public static final int COMPOSE_TWEET_REQUEST_CODE = 1;
 
-    private TweetsListFragment fragmentTweetsList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-
-        fragmentTweetsList = (TweetsListFragment) getSupportFragmentManager().findFragmentById(
-                R.id.flContainer);
 
         setupTabs();
     }
@@ -72,15 +66,15 @@ public class TimelineActivity extends FragmentActivity {
         Intent i = new Intent(this, ComposeActivity.class);
         startActivityForResult(i, COMPOSE_TWEET_REQUEST_CODE);
     }
-    
+
     public void onProfileView(MenuItem item) {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
     }
-    
+
     public void onSignOut(MenuItem item) {
         CardenalitoApplication.getRestClient().clearAccessToken();
-        
+
         Intent i = new Intent(this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -91,7 +85,10 @@ public class TimelineActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == COMPOSE_TWEET_REQUEST_CODE) {
             Tweet newTweet = (Tweet) data.getSerializableExtra(Tweet.TWEET_KEY);
-            fragmentTweetsList.insertTop(newTweet);
+
+            HomeTimelineFragment fragmentHomeTimeline = (HomeTimelineFragment) getSupportFragmentManager()
+                    .findFragmentByTag("home");
+            fragmentHomeTimeline.insertTop(newTweet);
         }
     }
 
