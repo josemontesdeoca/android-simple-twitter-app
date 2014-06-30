@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,19 +43,20 @@ public class ComposeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_compose);
 
         client = CardenalitoApplication.getRestClient();
 
-        authenticatedUser = (User) getIntent().getSerializableExtra(
-                TimelineActivity.AUTHENTICATED_USER_KEY);
-
         setupView();
-
         setupListeners();
+        populateProfileHeader();
     }
 
     private void setupView() {
+        // Get log in user
+        authenticatedUser = User.getLoginUser();
+
         // Setup back button on actionBar home icon
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -63,7 +65,9 @@ public class ComposeActivity extends Activity {
         tvAuthUserName = (TextView) findViewById(R.id.tvAuthUserName);
         tvAuthUserScreenName = (TextView) findViewById(R.id.tvAuthUserScreenName);
         etComposeTweet = (EditText) findViewById(R.id.etComposeTweet);
+    }
 
+    private void populateProfileHeader() {
         // Show user info
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -122,7 +126,7 @@ public class ComposeActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        // Respond to the action bar's Up/Home button
+         // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
                 return true;
@@ -131,15 +135,20 @@ public class ComposeActivity extends Activity {
     }
 
     public void onCompose(MenuItem item) {
-        String tweet = etComposeTweet.getText().toString();
+        String tweetBody = etComposeTweet.getText().toString();
 
-        if (tweet.length() > MAX_TWEET_LENGTH) {
+        if (tweetBody.length() > MAX_TWEET_LENGTH) {
             Toast.makeText(this, "Text should be less than 140 characters", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
-        client.postTweet(tweet, new JsonHttpResponseHandler() {
+        postTweet(tweetBody);
+    }
+
+    private void postTweet(String tweetBody) {
+        showProgressBar();
+        client.postTweet(tweetBody, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
@@ -148,6 +157,7 @@ public class ComposeActivity extends Activity {
                 Intent data = new Intent();
                 data.putExtra(Tweet.TWEET_KEY, tweet);
                 setResult(RESULT_OK, data);
+                hideProgressBar();
                 finish();
             }
 
@@ -155,9 +165,20 @@ public class ComposeActivity extends Activity {
             public void onFailure(Throwable e, String s) {
                 Log.d("debug", e.toString());
                 Log.d("debug", s.toString());
+                hideProgressBar();
                 Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // Should be called manually when an async task has started
+    public void showProgressBar() {
+        setProgressBarIndeterminateVisibility(true);
+    }
+
+    // Should be called when an async task has finished
+    public void hideProgressBar() {
+        setProgressBarIndeterminateVisibility(false);
     }
 }
