@@ -22,6 +22,7 @@ import com.activeandroid.util.Log;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -148,28 +149,33 @@ public class ComposeActivity extends Activity {
 
     private void postTweet(String tweetBody) {
         showProgressBar();
-        client.postTweet(tweetBody, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject jsonObject) {
-                Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
-                Tweet tweet = Tweet.fromJSON(jsonObject);
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            client.postTweet(tweetBody, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
+                    Tweet tweet = Tweet.fromJSON(jsonObject);
 
-                Intent data = new Intent();
-                data.putExtra(Tweet.TWEET_KEY, tweet);
-                setResult(RESULT_OK, data);
-                hideProgressBar();
-                finish();
-            }
+                    Intent data = new Intent();
+                    data.putExtra(Tweet.TWEET_KEY, tweet);
+                    setResult(RESULT_OK, data);
+                    hideProgressBar();
+                    finish();
+                }
 
-            @Override
-            public void onFailure(Throwable e, String s) {
-                Log.d("debug", e.toString());
-                Log.d("debug", s.toString());
-                hideProgressBar();
-                Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Throwable e, String s) {
+                    Log.d("debug", e.toString());
+                    Log.d("debug", s.toString());
+                    hideProgressBar();
+                    Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Oops! no internet connection...", Toast.LENGTH_SHORT).show();
+            hideProgressBar();
+        }
     }
 
     // Should be called manually when an async task has started
