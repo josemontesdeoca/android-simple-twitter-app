@@ -10,6 +10,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Column.ConflictAction;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Users")
 public class User extends Model implements Serializable {
@@ -25,6 +26,8 @@ public class User extends Model implements Serializable {
     private String screenName;
     @Column(name = "profile_image_url")
     private String profileImageUrl;
+    @Column(name = "login_user")
+    private boolean loginUser;
 
     private int tweetsCount;
     private int followers;
@@ -46,6 +49,7 @@ public class User extends Model implements Serializable {
             user.name = jsonObject.getString("name");
             user.screenName = jsonObject.getString("screen_name");
             user.profileImageUrl = jsonObject.getString("profile_image_url");
+            user.setLoginUser(false);
             user.tweetsCount = jsonObject.getInt("statuses_count");
             user.followers = jsonObject.getInt("followers_count");
             user.friends = jsonObject.getInt("friends_count");
@@ -79,6 +83,10 @@ public class User extends Model implements Serializable {
         return profileImageUrl;
     }
 
+    public boolean isLoginUser() {
+        return loginUser;
+    }
+
     public int getTweetsCount() {
         return tweetsCount;
     }
@@ -97,6 +105,14 @@ public class User extends Model implements Serializable {
 
     public String getLocation() {
         return location;
+    }
+
+    public void setLoginUser(boolean isLoginUser) {
+        loginUser = isLoginUser;
+    }
+
+    public static User getLoginUser() {
+        return new Select().from(User.class).where("login_user = ?", 1).executeSingle();
     }
 
 }
