@@ -49,6 +49,18 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvCreatedAt = (TextView) v.findViewById(R.id.tvCreatedAt);
         TextView tvTweetBody = (TextView) v.findViewById(R.id.tvTweetBody);
         ImageView ivMediaEntity = (ImageView) v.findViewById(R.id.ivMediaEntity);
+        
+        ImageView ivRetweet = (ImageView) v.findViewById(R.id.ivRetweet);
+        ImageView ivFavorite = (ImageView) v.findViewById(R.id.ivFavorite);
+        TextView tvRetweets = (TextView) v.findViewById(R.id.tvRetweets);
+        TextView tvFavorites = (TextView) v.findViewById(R.id.tvFavorites);
+        
+        // set UI values to defaults in case is a reused view
+        ivProfileImage.setImageResource(android.R.color.transparent);
+        ivFavorite.setImageResource(R.drawable.ic_no_favorite);
+        ivRetweet.setImageResource(R.drawable.ic_no_retweet);
+        tvRetweets.setText("");
+        tvFavorites.setText("");
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -62,8 +74,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
                 listener.onProfileImageClick(user);
             }
         });
-
-        ivProfileImage.setImageResource(android.R.color.transparent);
+        
         imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(tweet.getUser().getName());
         tvScreenName.setText(tweet.getUser().getScreenNameWithAt());
@@ -78,7 +89,23 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             ivMediaEntity.setVisibility(View.VISIBLE);
             imageLoader.displayImage(tweet.getMediaUrlThumb(), ivMediaEntity);
         }
+        
+        if (tweet.getRetweetCount() > 0) {
+            tvRetweets.setText(String.valueOf(tweet.getRetweetCount()));
+        }
+        
+        if (tweet.isRetweeted()) {
+            ivRetweet.setImageResource(R.drawable.ic_retweeted);
+        }
+        
+        if (tweet.getFavoriteCount() > 0) {
+            tvFavorites.setText(String.valueOf(tweet.getFavoriteCount()));
+        }
 
+        if (tweet.isFavorited()) {
+            ivFavorite.setImageResource(R.drawable.ic_favorite);
+        }
+        
         return v;
     }
 }

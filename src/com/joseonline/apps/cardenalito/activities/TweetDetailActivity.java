@@ -29,6 +29,7 @@ public class TweetDetailActivity extends Activity {
     private LinearLayout llFavoriteData;
     private TextView tvRetweetsCount;
     private TextView tvFavoritesCount;
+    private View vDivider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class TweetDetailActivity extends Activity {
         llFavoriteData = (LinearLayout) findViewById(R.id.llFavoriteData);
         tvRetweetsCount = (TextView) findViewById(R.id.tvRetweetsCount);
         tvFavoritesCount = (TextView) findViewById(R.id.tvFavoritesCount);
+        vDivider = (View) findViewById(R.id.vDivider);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -67,11 +69,13 @@ public class TweetDetailActivity extends Activity {
         
         if (tweet.getRetweetCount() > 0) {
             tvRetweetsCount.setText(String.valueOf(tweet.getRetweetCount()));
+            vDivider.setVisibility(View.VISIBLE);
             llRetweetsData.setVisibility(View.VISIBLE);
         }
         
         if (tweet.getFavoriteCount() > 0) {
             tvFavoritesCount.setText(String.valueOf(tweet.getFavoriteCount()));
+            vDivider.setVisibility(View.VISIBLE);
             llFavoriteData.setVisibility(View.VISIBLE);
         }
         

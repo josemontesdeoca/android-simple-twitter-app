@@ -78,7 +78,8 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray" 
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/llCounts"
@@ -128,6 +129,41 @@
                     android:text="@string/favorites_label" />
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/llTweet"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_card"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/ivReply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_reply" />
+
+        <ImageView
+            android:id="@+id/ivRetweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_no_retweet" />
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_no_favorite" />
+        
     </LinearLayout>
 
 </RelativeLayout>
