@@ -103,7 +103,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
                 if (!aTweets.isEmpty()) {
                     Tweet oldestTweet = aTweets.getItem(aTweets.getCount() - 1);
                     Long oldestTweetId = oldestTweet.getUid();
-
+                    linlaHeaderProgress.setVisibility(View.VISIBLE);
                     populateTimeline(String.valueOf(oldestTweetId - 1));
                 }
             }
@@ -140,10 +140,11 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
                 }
             }
             // No internet connectivity error
-            Toast.makeText(getActivity(), "No internet connectivity. Try again", Toast.LENGTH_SHORT)
+            Toast.makeText(getActivity(), getString(R.string.no_internet_error_msg),
+                    Toast.LENGTH_SHORT)
                     .show();
+            linlaHeaderProgress.setVisibility(View.GONE);
         }
-        linlaHeaderProgress.setVisibility(View.GONE);
     }
 
     private void refreshTimeline(String sinceId) {
@@ -151,7 +152,8 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
             getLatestTweets(sinceId, getLatestTweetsHandler());
         } else {
             // No internet connectivity error
-            Toast.makeText(getActivity(), "Network is acting up. Try again", Toast.LENGTH_SHORT)
+            Toast.makeText(getActivity(), getString(R.string.no_internet_error_msg),
+                    Toast.LENGTH_SHORT)
                     .show();
             lvTimeline.onRefreshComplete();
         }
@@ -178,12 +180,16 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
                 ArrayList<Tweet> tweetArray = Tweet.fromJSONArray(json);
                 aTweets.addAll(tweetArray);
                 saveData(tweetArray);
+                linlaHeaderProgress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Throwable e, String s) {
                 Log.d("DEBUG", e.toString());
                 Log.d("DEBUG", s.toString());
+                Toast.makeText(getActivity(), getString(R.string.remote_call_error_msg),
+                        Toast.LENGTH_LONG).show();
+                linlaHeaderProgress.setVisibility(View.GONE);
             }
         };
     }
@@ -222,7 +228,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
             public void onFailure(Throwable e, String s) {
                 Log.d("DEBUG", s.toString());
                 Log.d("DEBUG", "Fetch error: " + e.toString());
-                Toast.makeText(getActivity(), "Twitter is funky. Try again",
+                Toast.makeText(getActivity(), getString(R.string.remote_call_error_msg),
                         Toast.LENGTH_SHORT).show();
                 lvTimeline.onRefreshComplete();
             }
@@ -245,7 +251,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
     @Override
     public void onProfileImageClick(User user) {
         Toast.makeText(getActivity(), "User: " + user.getScreenName(), Toast.LENGTH_SHORT).show();
-        
+
         Intent i = new Intent(getActivity(), ProfileActivity.class);
         i.putExtra(User.USER_KEY, user);
         startActivity(i);

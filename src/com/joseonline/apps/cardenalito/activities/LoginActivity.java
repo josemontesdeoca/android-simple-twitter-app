@@ -52,12 +52,13 @@ public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
                             public void onFailure(Throwable e, JSONObject jsonObject) {
                                 Log.d("DEBUG", e.toString());
                                 Toast.makeText(getApplicationContext(),
-                                        "Oops! something went wrong...",
+                                        getString(R.string.remote_call_error_msg),
                                         Toast.LENGTH_LONG).show();
                             }
                         });
             } else {
-                Toast.makeText(this, "Oops! no internet connection...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.no_internet_error_msg), Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     }
@@ -68,7 +69,7 @@ public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
     @Override
     public void onLoginFailure(Exception e) {
         e.printStackTrace();
-        Toast.makeText(this, "Oops! can not connect. Try again...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.remote_call_error_msg), Toast.LENGTH_LONG).show();
     }
 
     /**

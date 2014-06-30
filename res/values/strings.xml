@@ -18,5 +18,7 @@
     <string name="action_profile_label">Profile</string>
     <string name="title_activity_profile">Profile</string>
     <string name="action_signout_label">Sign Out</string>
+    <string name="no_internet_error_msg">Oops! no internet connection...</string>
+    <string name="remote_call_error_msg">Oops! something failed...</string>
 
 </resources>

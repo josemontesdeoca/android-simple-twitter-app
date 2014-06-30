@@ -27,9 +27,9 @@ public class ProfileActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        
+
         setContentView(R.layout.activity_profile);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,27 +49,30 @@ public class ProfileActivity extends FragmentActivity {
     private void loadProfileInfo() {
         showProgressBar();
         if (NetworkUtils.isNetworkAvailable(this)) {
-            CardenalitoApplication.getRestClient().getAuthenticatedUser(new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    hideProgressBar();
-                    User user = User.fromJSON(jsonObject);
-                    populateProfileHeader(user);
-                    setupUserTimelineFragment(user);
-                }
+            CardenalitoApplication.getRestClient().getAuthenticatedUser(
+                    new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(JSONObject jsonObject) {
+                            hideProgressBar();
+                            User user = User.fromJSON(jsonObject);
+                            populateProfileHeader(user);
+                            setupUserTimelineFragment(user);
+                        }
 
-                @Override
-                public void onFailure(Throwable e, JSONObject jsonObject) {
-                    Log.d("DEBUG", e.toString());
-                    hideProgressBar();
-                    Toast.makeText(getApplicationContext(), "Oops! Can not get the profile...",
-                            Toast.LENGTH_LONG).show();
-                    finish();
-                }
-            });
+                        @Override
+                        public void onFailure(Throwable e, JSONObject jsonObject) {
+                            Log.d("DEBUG", e.toString());
+                            hideProgressBar();
+                            Toast.makeText(getApplicationContext(),
+                                    getString(R.string.remote_call_error_msg),
+                                    Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    });
         } else {
             finish();
-            Toast.makeText(this, "Oops! no internet connection...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_internet_error_msg), Toast.LENGTH_SHORT)
+                    .show();
             hideProgressBar();
         }
     }
