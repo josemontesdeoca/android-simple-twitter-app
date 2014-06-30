@@ -26,9 +26,10 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:contentDescription="@string/profile_image_description"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
+                android:contentDescription="@string/profile_image_description"
+                android:onClick="onProfileImageClick"
                 android:src="@drawable/ic_action_user_profile" />
 
             <TextView
@@ -42,8 +43,8 @@
                 android:id="@+id/tvUserScreenName"
                 style="@style/DetailScreenName"
                 android:layout_below="@+id/tvUserName"
-                android:layout_toRightOf="@+id/ivProfileImage"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ivProfileImage"
                 android:text="@string/foo_label" />
         </RelativeLayout>
 
@@ -53,7 +54,6 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="10dp"
-            
             android:autoLink="all"
             android:text="@string/sample_tweet_body_label" />
 
@@ -64,7 +64,7 @@
             android:layout_gravity="center"
             android:layout_margin="4dp"
             android:src="@drawable/ic_action_user_profile"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvCreatedAt"

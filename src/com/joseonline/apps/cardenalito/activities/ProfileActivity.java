@@ -3,14 +3,17 @@ package com.joseonline.apps.cardenalito.activities;
 
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
+import com.joseonline.apps.cardenalito.fragments.UserTimelineFragment;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,8 +26,17 @@ public class ProfileActivity extends FragmentActivity {
         setContentView(R.layout.activity_profile);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        loadProfileInfo();
+        
+        Intent i = getIntent();
+        
+        if (i.hasExtra(User.USER_KEY)) {
+            User user = (User) i.getSerializableExtra(User.USER_KEY);
+            populateProfileHeader(user);
+            setupUserTimelineFragment(user);
+        } else {
+            // User looking into his own profile
+            loadProfileInfo();
+        }
     }
 
     private void loadProfileInfo() {
@@ -33,6 +45,7 @@ public class ProfileActivity extends FragmentActivity {
             public void onSuccess(JSONObject jsonObject) {
                 User user = User.fromJSON(jsonObject);
                 populateProfileHeader(user);
+                setupUserTimelineFragment(user);
             }
         });
     }
@@ -51,8 +64,13 @@ public class ProfileActivity extends FragmentActivity {
         tvTweets.setText(user.getTweetsCount() + " Tweets");
         tvFollowing.setText(user.getFriends() + " Following");
         tvFollowers.setText(user.getFollowers() + " Followers");
-        
-        
+    }
+    
+    private void setupUserTimelineFragment(User user) {
+        UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(user);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flTimelineContainer, fragmentUserTimeline);
+        ft.commit();
     }
     
     @Override

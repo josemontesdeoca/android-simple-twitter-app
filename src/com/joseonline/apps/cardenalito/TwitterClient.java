@@ -12,6 +12,7 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String MAX_ID_PARAMETER = "max_id";
     private static final String SINCE_ID_PARAMETER = "since_id";
     private static final String STATUS_PARAMETER = "status";
+    private static final String SCREEN_NAME = "screen_name";
 
     private static final String HOME_TIMELINE_PATH = "/statuses/home_timeline.json";
     private static final String ACCOUNT_VERIFY_CREDENTIALS_PATH = "/account/verify_credentials.json";
@@ -72,11 +73,12 @@ public class TwitterClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
     
-    public void getUserTimeline(String maxId, AsyncHttpResponseHandler handler) {
+    public void getUserTimeline(String screenName, String maxId, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl(USER_TIMELINE_PATH);
 
         RequestParams params = new RequestParams();
         params.put(COUNT_PARAMETER, "20");
+        params.put(SCREEN_NAME, screenName);
 
         if (maxId != null) {
             params.put(MAX_ID_PARAMETER, maxId);
