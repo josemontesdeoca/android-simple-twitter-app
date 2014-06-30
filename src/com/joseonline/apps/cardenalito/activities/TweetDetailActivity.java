@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.joseonline.apps.cardenalito.R;
@@ -24,6 +25,10 @@ public class TweetDetailActivity extends Activity {
     private TextView tvTweetBody;
     private TextView tvCreatedAt;
     private ImageView ivMediaEntity;
+    private LinearLayout llRetweetsData;
+    private LinearLayout llFavoriteData;
+    private TextView tvRetweetsCount;
+    private TextView tvFavoritesCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,10 @@ public class TweetDetailActivity extends Activity {
         tvTweetBody = (TextView) findViewById(R.id.tvTweetBody);
         tvCreatedAt = (TextView) findViewById(R.id.tvCreatedAt);
         ivMediaEntity = (ImageView) findViewById(R.id.ivMediaEntity);
+        llRetweetsData = (LinearLayout) findViewById(R.id.llRetweetsData);
+        llFavoriteData = (LinearLayout) findViewById(R.id.llFavoriteData);
+        tvRetweetsCount = (TextView) findViewById(R.id.tvRetweetsCount);
+        tvFavoritesCount = (TextView) findViewById(R.id.tvFavoritesCount);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -55,6 +64,17 @@ public class TweetDetailActivity extends Activity {
         tvTweetBody.setText(tweet.getBody());
         tvCreatedAt.setText(DateUtil.getFullDate(this, tweet.getCreateAt(),
                 DateUtil.TWITTER_TIME_FORMAT));
+        
+        if (tweet.getRetweetCount() > 0) {
+            tvRetweetsCount.setText(String.valueOf(tweet.getRetweetCount()));
+            llRetweetsData.setVisibility(View.VISIBLE);
+        }
+        
+        if (tweet.getFavoriteCount() > 0) {
+            tvFavoritesCount.setText(String.valueOf(tweet.getFavoriteCount()));
+            llFavoriteData.setVisibility(View.VISIBLE);
+        }
+        
         if (tweet.getMediaUrl() != null) {
             ivMediaEntity.setImageResource(android.R.color.transparent);
             ivMediaEntity.setVisibility(View.VISIBLE);

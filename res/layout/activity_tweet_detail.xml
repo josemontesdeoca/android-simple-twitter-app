@@ -6,6 +6,7 @@
     tools:context="${packageName}.${activityClass}" >
 
     <LinearLayout
+        android:id="@+id/llTweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -71,6 +72,62 @@
             style="@style/CreatedAt"
             android:layout_margin="4dp"
             android:text="@string/created_at_sample_label" />
+
+        <View
+            android:id="@+id/vDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/llCounts"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/llRetweetsData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/tvRetweetsCount"
+                    style="@style/StatisticData"
+                    android:layout_marginLeft="4dp"
+                    android:text="20" />
+
+                <TextView
+                    android:id="@+id/tvRetweetsLabel"
+                    style="@style/StatisticDataLabel"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/retweets_label" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFavoriteData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/tvFavoritesCount"
+                    style="@style/StatisticData"
+                    android:layout_marginLeft="10dp"
+                    android:text="5" />
+
+                <TextView
+                    android:id="@+id/tvFavoritesLabel"
+                    style="@style/StatisticDataLabel"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/favorites_label" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
