@@ -14,6 +14,7 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String STATUS_PARAMETER = "status";
     private static final String SCREEN_NAME = "screen_name";
     private static final String ID_PARAMETER = "id";
+    private static final String IN_REPLY_TO_STATUS_ID_PARAMETER = "in_reply_to_status_id";
 
     private static final String HOME_TIMELINE_PATH = "/statuses/home_timeline.json";
     private static final String ACCOUNT_VERIFY_CREDENTIALS_PATH = "/account/verify_credentials.json";
@@ -99,6 +100,16 @@ public class TwitterClient extends OAuthBaseClient {
         String apiUrl = getApiUrl(POST_TWEET_PATH);
 
         RequestParams params = new RequestParams();
+        params.put(STATUS_PARAMETER, tweet);
+
+        client.post(apiUrl, params, handler);
+    }
+    
+    public void postTweet(String replyTweetId, String tweet, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(POST_TWEET_PATH);
+
+        RequestParams params = new RequestParams();
+        params.put(IN_REPLY_TO_STATUS_ID_PARAMETER, replyTweetId);
         params.put(STATUS_PARAMETER, tweet);
 
         client.post(apiUrl, params, handler);
