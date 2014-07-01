@@ -143,26 +143,57 @@
         android:background="@drawable/bg_card"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/ivReply"
+        <LinearLayout
+            android:id="@+id/llReply"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_reply" />
+            android:gravity="center" >
 
-        <ImageView
-            android:id="@+id/ivRetweet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_no_retweet" />
+            <ImageView
+                android:id="@+id/ivReply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_reply" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/ivFavorite"
+        <LinearLayout
+            android:id="@+id/llRetweets"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" 
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/cbRetweet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_retweet"/>
+
+            <TextView
+                android:id="@+id/tvRetweets"
+                style="@style/StatisticDataTimeline"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_no_favorite" />
+            android:gravity="center" >
+
+            <CheckBox
+                android:id="@+id/cbFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_favorite" />
+
+            <TextView
+                android:id="@+id/tvFavorites"
+                style="@style/StatisticDataTimeline"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
         
     </LinearLayout>
 
