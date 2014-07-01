@@ -40,6 +40,7 @@ public class ComposeActivity extends Activity {
     private TwitterClient client;
 
     private User authenticatedUser;
+    private Tweet replyTweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class ComposeActivity extends Activity {
         setContentView(R.layout.activity_compose);
 
         client = CardenalitoApplication.getRestClient();
+
+        replyTweet = (Tweet) getIntent().getSerializableExtra(Tweet.TWEET_KEY);
 
         setupView();
         setupListeners();
@@ -66,6 +69,11 @@ public class ComposeActivity extends Activity {
         tvAuthUserName = (TextView) findViewById(R.id.tvAuthUserName);
         tvAuthUserScreenName = (TextView) findViewById(R.id.tvAuthUserScreenName);
         etComposeTweet = (EditText) findViewById(R.id.etComposeTweet);
+
+        if (replyTweet != null) {
+            etComposeTweet.setText(replyTweet.getUser().getScreenNameWithAt() + " ");
+            etComposeTweet.setSelection(etComposeTweet.getText().length());
+        }
     }
 
     private void populateProfileHeader() {
@@ -127,7 +135,7 @@ public class ComposeActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-         // Respond to the action bar's Up/Home button
+        // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
                 return true;
@@ -150,28 +158,60 @@ public class ComposeActivity extends Activity {
     private void postTweet(String tweetBody) {
         showProgressBar();
         if (NetworkUtils.isNetworkAvailable(this)) {
-            client.postTweet(tweetBody, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
-                    Tweet tweet = Tweet.fromJSON(jsonObject);
+            if (replyTweet != null) {
+                // its a tweet reply
+                String replyTweetId = String.valueOf(replyTweet.getUid());
+                client.postTweet(replyTweetId, tweetBody, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+                        Toast.makeText(ComposeActivity.this, "Reply Tweet posted",
+                                Toast.LENGTH_SHORT).show();
+                        
+                        Tweet tweet = Tweet.fromJSON(jsonObject);
 
-                    Intent data = new Intent();
-                    data.putExtra(Tweet.TWEET_KEY, tweet);
-                    setResult(RESULT_OK, data);
-                    hideProgressBar();
-                    finish();
-                }
+                        Intent data = new Intent();
+                        data.putExtra(Tweet.TWEET_KEY, tweet);
+                        setResult(RESULT_OK, data);
+                        hideProgressBar();
+                        finish();
+                    }
 
-                @Override
-                public void onFailure(Throwable e, String s) {
-                    Log.d("debug", e.toString());
-                    Log.d("debug", s.toString());
-                    hideProgressBar();
-                    Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        hideProgressBar();
+                        Toast.makeText(ComposeActivity.this,
+                                "Problem sending the reply tweet. Try again", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+            } else {
+                client.postTweet(tweetBody, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+                        Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT)
+                                .show();
+                        Tweet tweet = Tweet.fromJSON(jsonObject);
+
+                        Intent data = new Intent();
+                        data.putExtra(Tweet.TWEET_KEY, tweet);
+                        setResult(RESULT_OK, data);
+                        hideProgressBar();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        hideProgressBar();
+                        Toast.makeText(ComposeActivity.this,
+                                "Problem sending the tweet. Try again",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } else {
             Toast.makeText(this, "Oops! no internet connection...", Toast.LENGTH_SHORT).show();
             hideProgressBar();

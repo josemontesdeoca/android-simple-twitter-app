@@ -28,6 +28,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
     public interface OnTweetClickListener {
         public void onProfileImageClick(User user);
         public void onFavoriteClick(int pos, boolean isChecked);
+        public void onReplyClick(Tweet replyTweet);
     }
 
     public TweetArrayAdapter(Context context, List<Tweet> tweets, OnTweetClickListener listener) {
@@ -59,6 +60,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         CheckBox cbFavorite = (CheckBox) v.findViewById(R.id.cbFavorite);
         TextView tvRetweets = (TextView) v.findViewById(R.id.tvRetweets);
         TextView tvFavorites = (TextView) v.findViewById(R.id.tvFavorites);
+        ImageView ivReply = (ImageView) v.findViewById(R.id.ivReply);
         
         // set UI values to defaults in case is a reused view
         ivProfileImage.setImageResource(android.R.color.transparent);
@@ -119,6 +121,17 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
                 CheckBox cbFavorite = (CheckBox) v.findViewById(R.id.cbFavorite);
                 boolean isChecked = cbFavorite.isChecked();
                 listener.onFavoriteClick(pos, isChecked);
+            }
+        });
+        
+        // Set Reply listener
+        ivReply.setTag(tweet);
+        ivReply.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Tweet replyTweet = (Tweet) v.getTag();
+                listener.onReplyClick(replyTweet);
             }
         });
         

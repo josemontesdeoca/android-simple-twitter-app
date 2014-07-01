@@ -40,6 +40,7 @@ public class TweetDetailActivity extends Activity {
     private LinearLayout llFavoriteData;
     private TextView tvRetweetsCount;
     private TextView tvFavoritesCount;
+    private ImageView ivReply;
     private CheckBox cbFavorite;
     private CheckBox cbRetweet;
     private View vDivider;
@@ -77,6 +78,7 @@ public class TweetDetailActivity extends Activity {
         llFavoriteData = (LinearLayout) findViewById(R.id.llFavoriteData);
         tvFavoritesCount = (TextView) findViewById(R.id.tvFavoritesCount);
         tvRetweetsCount = (TextView) findViewById(R.id.tvRetweetsCount);
+        ivReply = (ImageView) findViewById(R.id.ivReply);
         cbFavorite = (CheckBox) findViewById(R.id.cbFavorite);
         cbRetweet = (CheckBox) findViewById(R.id.cbRetweet);
         vDivider = (View) findViewById(R.id.vDivider);
@@ -116,10 +118,21 @@ public class TweetDetailActivity extends Activity {
     }
 
     private void setupListeners() {
+
+        // Favorite listener
         cbFavorite.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFavoriteClick(tweet, cbFavorite.isChecked());
+            }
+        });
+
+        // Reply listener
+        ivReply.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onReplyClick();
             }
         });
     }
@@ -196,6 +209,13 @@ public class TweetDetailActivity extends Activity {
                 hideProgressBar();
             }
         });
+    }
+
+    private void onReplyClick() {
+        Intent i = new Intent(this, ComposeActivity.class);
+
+        i.putExtra(Tweet.TWEET_KEY, tweet);
+        startActivity(i);
     }
 
     // Should be called manually when an async task has started

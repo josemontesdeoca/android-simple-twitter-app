@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +25,7 @@ import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
 import com.joseonline.apps.cardenalito.activities.ComposeActivity;
 import com.joseonline.apps.cardenalito.activities.ProfileActivity;
+import com.joseonline.apps.cardenalito.activities.TimelineActivity;
 import com.joseonline.apps.cardenalito.activities.TweetDetailActivity;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter.OnTweetClickListener;
@@ -246,6 +245,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
 
     public void insertTop(Tweet tweet) {
         aTweets.insert(tweet, 0);
+        aTweets.notifyDataSetChanged();
     }
 
     private void saveData(ArrayList<Tweet> tweets) {
@@ -316,5 +316,14 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
         aTweets.remove(updateTweet);
         aTweets.insert(updateTweet, pos);
         aTweets.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onReplyClick(Tweet replyTweet) {
+        Toast.makeText(getActivity(), "Hit reply!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(getActivity(), ComposeActivity.class);
+        
+        i.putExtra(Tweet.TWEET_KEY, replyTweet);
+        startActivityForResult(i, TimelineActivity.COMPOSE_TWEET_REQUEST_CODE);
     }
 }
