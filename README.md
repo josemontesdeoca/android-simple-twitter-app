@@ -4,7 +4,7 @@ This is an Android demo application which implements a simple Twitter applicatio
 
 **Time spent:** 
 - **W3** ~20 hrs 
-- **W4** ~14 hrs
+- **W4** ~20 hrs
 
 ###Completed user stories W4
 - * [x] User can switch between Timeline and Mention views using tabs.
@@ -17,6 +17,11 @@ This is an Android demo application which implements a simple Twitter applicatio
  - * [x] User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
  - * [x] Profile view should include that user's timeline
 - * [x] *Advanced:* Robust error handling, check if internet is available, handle error cases, network failures
+- * [x] *Advanced:* User can "reply" to any tweet on their home timeline
+ - The user that wrote the original tweet is automatically "@" replied in compose
+- * [x] *Advanced:* User can click on a tweet to be taken to a "detail view" of that tweet
+- * [x] *Advanced:* Improve the user interface and theme of the app.
+
 
 ###Completed user stories W3
 - * [x] User can sign in to Twitter using OAuth login
