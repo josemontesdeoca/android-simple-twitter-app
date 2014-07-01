@@ -6,8 +6,12 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +27,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
     public interface OnTweetClickListener {
         public void onProfileImageClick(User user);
+        public void onFavoriteClick(int pos, boolean isChecked);
     }
 
     public TweetArrayAdapter(Context context, List<Tweet> tweets, OnTweetClickListener listener) {
@@ -50,31 +55,21 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvTweetBody = (TextView) v.findViewById(R.id.tvTweetBody);
         ImageView ivMediaEntity = (ImageView) v.findViewById(R.id.ivMediaEntity);
         
-        ImageView ivRetweet = (ImageView) v.findViewById(R.id.ivRetweet);
-        ImageView ivFavorite = (ImageView) v.findViewById(R.id.ivFavorite);
+        CheckBox cbRetweet = (CheckBox) v.findViewById(R.id.cbRetweet);
+        CheckBox cbFavorite = (CheckBox) v.findViewById(R.id.cbFavorite);
         TextView tvRetweets = (TextView) v.findViewById(R.id.tvRetweets);
         TextView tvFavorites = (TextView) v.findViewById(R.id.tvFavorites);
         
         // set UI values to defaults in case is a reused view
         ivProfileImage.setImageResource(android.R.color.transparent);
-        ivFavorite.setImageResource(R.drawable.ic_no_favorite);
-        ivRetweet.setImageResource(R.drawable.ic_no_retweet);
+        cbFavorite.setChecked(false);
+        cbRetweet.setChecked(false);
         tvRetweets.setText("");
         tvFavorites.setText("");
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
-        // Set profile image listener
-        ivProfileImage.setTag(tweet.getUser());
-        ivProfileImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                User user = (User) v.getTag();
-                listener.onProfileImageClick(user);
-            }
-        });
-        
+        // set values
         imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(tweet.getUser().getName());
         tvScreenName.setText(tweet.getUser().getScreenNameWithAt());
@@ -94,17 +89,46 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             tvRetweets.setText(String.valueOf(tweet.getRetweetCount()));
         }
         
-        if (tweet.isRetweeted()) {
-            ivRetweet.setImageResource(R.drawable.ic_retweeted);
-        }
+        cbRetweet.setChecked(tweet.isRetweeted());
         
         if (tweet.getFavoriteCount() > 0) {
             tvFavorites.setText(String.valueOf(tweet.getFavoriteCount()));
         }
 
-        if (tweet.isFavorited()) {
-            ivFavorite.setImageResource(R.drawable.ic_favorite);
-        }
+        cbFavorite.setChecked(tweet.isFavorited());
+        
+        
+        // Set profile image listener
+        ivProfileImage.setTag(tweet.getUser());
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                User user = (User) v.getTag();
+                listener.onProfileImageClick(user);
+            }
+        });
+        
+        // Set favorite listener
+        cbFavorite.setTag(position);
+        cbFavorite.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                int pos = (Integer) v.getTag();
+                CheckBox cbFavorite = (CheckBox) v.findViewById(R.id.cbFavorite);
+                boolean isChecked = cbFavorite.isChecked();
+                listener.onFavoriteClick(pos, isChecked);
+            }
+        });
+        /*cbFavorite.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Tweet tweet = (Tweet) v.getTag();
+                listener.onFavoriteClick(tweet, buttonView, isChecked);
+            }
+        });*/
         
         return v;
     }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/ic_retweeted" android:state_checked="true"></item>
+    <item android:drawable="@drawable/ic_no_retweet" android:state_checked="false"></item>
+
+</selector>

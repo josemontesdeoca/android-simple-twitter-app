@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Column.ConflictAction;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.Log;
@@ -21,7 +22,7 @@ public class Tweet extends Model implements Serializable {
 
     public static final String TWEET_KEY = "tweet";
 
-    @Column(name = "remote_id", unique = true)
+    @Column(name = "remote_id", unique = true, onUniqueConflict = ConflictAction.REPLACE)
     private long uid;
     @Column(name = "body")
     private String body;
@@ -63,7 +64,7 @@ public class Tweet extends Model implements Serializable {
     public String getMediaUrl() {
         return mediaUrl;
     }
-    
+
     public int getRetweetCount() {
         return retweetCount;
     }
@@ -83,7 +84,7 @@ public class Tweet extends Model implements Serializable {
     public String getMediaUrlThumb() {
         return mediaUrl + ":thumb";
     }
-    
+
     public String getMediaUrlSmall() {
         return mediaUrl + ":small";
     }
@@ -127,7 +128,7 @@ public class Tweet extends Model implements Serializable {
             tweet.retweeted = jsonObject.getBoolean("retweeted");
             tweet.favoriteCount = jsonObject.getInt("favorite_count");
             tweet.favorited = jsonObject.getBoolean("favorited");
-            
+
             // Getting a media Url
             try {
                 JSONObject entities = jsonObject.getJSONObject("entities");
@@ -139,12 +140,23 @@ public class Tweet extends Model implements Serializable {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
 
         return tweet;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Tweet tweet = (Tweet) obj;
+
+        return uid == tweet.getUid();
     }
 }
