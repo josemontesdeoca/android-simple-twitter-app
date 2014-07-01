@@ -311,6 +311,9 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
     private void updateTweet(JSONObject jsonObject) {
         Tweet updateTweet = Tweet.fromJSON(jsonObject);
         int pos = aTweets.getPosition(updateTweet);
+        // TODO: verify is there is a better way of doing so
+        // remove/add the updated tweet so it refresh accordingly within the custom adapter getView
+        aTweets.remove(updateTweet);
         aTweets.insert(updateTweet, pos);
         aTweets.notifyDataSetChanged();
     }
