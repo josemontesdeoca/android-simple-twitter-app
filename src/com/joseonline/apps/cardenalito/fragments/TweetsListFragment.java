@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.activities.ComposeActivity;
 import com.joseonline.apps.cardenalito.activities.ProfileActivity;
+import com.joseonline.apps.cardenalito.activities.TimelineActivity;
 import com.joseonline.apps.cardenalito.activities.TweetDetailActivity;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter;
 import com.joseonline.apps.cardenalito.adapters.TweetArrayAdapter.OnTweetClickListener;
@@ -242,6 +245,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
 
     public void insertTop(Tweet tweet) {
         aTweets.insert(tweet, 0);
+        aTweets.notifyDataSetChanged();
     }
 
     private void saveData(ArrayList<Tweet> tweets) {
@@ -257,4 +261,69 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
         startActivity(i);
     }
 
+    @Override
+    public void onFavoriteClick(int pos, boolean isChecked) {
+        Tweet tweet = (Tweet) aTweets.getItem(pos);
+        // TODO: add progress bar within the action bar. (Tip: a listener to talk with the activity)
+        if (NetworkUtils.isNetworkAvailable(getActivity())) {
+            String tweetId = String.valueOf(tweet.getUid());
+            if (isChecked) {
+                client.favoriteTweet(tweetId, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int arg0, JSONObject jsonObject) {
+                        Toast.makeText(getActivity(), "Tweet favorite", Toast.LENGTH_SHORT).show();
+                        updateTweet(jsonObject);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        Toast.makeText(getActivity(), "Problem favoriting the tweet. Try again",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                client.unfavoriteTweet(tweetId, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int arg0, JSONObject jsonObject) {
+                        Toast.makeText(getActivity(), "Tweet un-favorite", Toast.LENGTH_SHORT)
+                                .show();
+                        updateTweet(jsonObject);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        Toast.makeText(getActivity(), "Problem favoriting the tweet. Try again",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } else {
+            // No internet connectivity error
+            Toast.makeText(getActivity(), getString(R.string.no_internet_error_msg),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateTweet(JSONObject jsonObject) {
+        Tweet updateTweet = Tweet.fromJSON(jsonObject);
+        int pos = aTweets.getPosition(updateTweet);
+        // TODO: verify is there is a better way of doing so
+        // remove/add the updated tweet so it refresh accordingly within the custom adapter getView
+        aTweets.remove(updateTweet);
+        aTweets.insert(updateTweet, pos);
+        aTweets.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onReplyClick(Tweet replyTweet) {
+        Toast.makeText(getActivity(), "Hit reply!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(getActivity(), ComposeActivity.class);
+        
+        i.putExtra(Tweet.TWEET_KEY, replyTweet);
+        startActivityForResult(i, TimelineActivity.COMPOSE_TWEET_REQUEST_CODE);
+    }
 }
