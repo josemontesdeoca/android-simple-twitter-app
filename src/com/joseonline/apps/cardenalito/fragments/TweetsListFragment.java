@@ -264,7 +264,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
     @Override
     public void onFavoriteClick(int pos, boolean isChecked) {
         Tweet tweet = (Tweet) aTweets.getItem(pos);
-        
+        // TODO: add progress bar within the action bar. (Tip: a listener to talk with the activity)
         if (NetworkUtils.isNetworkAvailable(getActivity())) {
             String tweetId = String.valueOf(tweet.getUid());
             if (isChecked) {
@@ -291,7 +291,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
                                 .show();
                         updateTweet(jsonObject);
                     }
-                    
+
                     @Override
                     public void onFailure(Throwable e, String s) {
                         Log.d("debug", e.toString());
@@ -307,7 +307,7 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
                     Toast.LENGTH_SHORT).show();
         }
     }
-    
+
     private void updateTweet(JSONObject jsonObject) {
         Tweet updateTweet = Tweet.fromJSON(jsonObject);
         int pos = aTweets.getPosition(updateTweet);

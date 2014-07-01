@@ -121,14 +121,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
                 listener.onFavoriteClick(pos, isChecked);
             }
         });
-        /*cbFavorite.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Tweet tweet = (Tweet) v.getTag();
-                listener.onFavoriteClick(tweet, buttonView, isChecked);
-            }
-        });*/
         
         return v;
     }
