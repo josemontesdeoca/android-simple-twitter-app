@@ -2,81 +2,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkgray"
     tools:context="${packageName}.${activityClass}" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rlHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:background="@color/darkergray"
+        android:gravity="center"
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/ivProfileImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/profile_image_description"
             android:src="@android:drawable/screen_background_light_transparent" />
 
         <TextView
             android:id="@+id/tvUserName"
-            style="@style/DetailUserName"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/ivProfileImage"
-            android:text="@string/foo_name_label" />
+            style="@style/ProfileUserName"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/tvScreenName"
-            style="@style/DetailScreenName"
-            android:layout_below="@+id/tvUserName"
-            android:layout_toRightOf="@+id/ivProfileImage"
-            android:text="@string/foo_label" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/vDivider1"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/rlHeader"
-        android:background="@android:color/darker_gray" />
+            style="@style/ProfileScreenName"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llCounts"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vDivider1"
-        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/rlHeader"
+        android:layout_marginBottom="6dp"
         android:layout_marginTop="10dp"
         android:divider="?android:dividerHorizontal"
         android:orientation="horizontal"
-        android:showDividers="middle" >
+        android:showDividers="middle"
+        android:background="@drawable/bg_card"
+        android:gravity="center" >
 
-        <TextView
-            android:id="@+id/tvTweets"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="400 Tweets" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tvFollowing"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:text="5 Following" />
+            <TextView
+                android:id="@+id/tvTweets"
+                style="@style/StatisticData"/>
 
-        <TextView
-            android:id="@+id/tvFollowers"
-            android:layout_width="fill_parent"
+            <TextView
+                android:id="@+id/tvTweetsLabel"
+                style="@style/StatisticDataLabel"
+                android:text="TWEETS" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
             android:layout_weight="1"
-            android:text="5 Followers" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvFollowing"
+                style="@style/StatisticData"/>
+
+            <TextView
+                android:id="@+id/tvFollowingLabel"
+                style="@style/StatisticDataLabel"
+                android:text="FOLLOWING" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvFollowers"
+                style="@style/StatisticData"/>
+
+            <TextView
+                android:id="@+id/tvFollowersLabel"
+                style="@style/StatisticDataLabel"
+                android:text="FOLLOWERS" />
+        </LinearLayout>
     </LinearLayout>
 
     <View
