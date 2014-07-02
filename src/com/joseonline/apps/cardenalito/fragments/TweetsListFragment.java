@@ -254,8 +254,6 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
 
     @Override
     public void onProfileImageClick(User user) {
-        Toast.makeText(getActivity(), "User: " + user.getScreenName(), Toast.LENGTH_SHORT).show();
-
         Intent i = new Intent(getActivity(), ProfileActivity.class);
         i.putExtra(User.USER_KEY, user);
         startActivity(i);
@@ -320,7 +318,6 @@ public abstract class TweetsListFragment extends Fragment implements OnTweetClic
 
     @Override
     public void onReplyClick(Tweet replyTweet) {
-        Toast.makeText(getActivity(), "Hit reply!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(getActivity(), ComposeActivity.class);
         
         i.putExtra(Tweet.TWEET_KEY, replyTweet);
