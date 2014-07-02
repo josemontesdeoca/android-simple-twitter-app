@@ -88,9 +88,9 @@ public class ProfileActivity extends FragmentActivity {
         ImageLoader.getInstance().displayImage(user.getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(user.getName());
         tvScreenName.setText(user.getScreenNameWithAt());
-        tvTweets.setText(user.getTweetsCount() + " Tweets");
-        tvFollowing.setText(user.getFriends() + " Following");
-        tvFollowers.setText(user.getFollowers() + " Followers");
+        tvTweets.setText(String.valueOf(user.getTweetsCount()));
+        tvFollowing.setText(String.valueOf(user.getFriends()));
+        tvFollowers.setText(String.valueOf(user.getFollowers()));
     }
 
     private void setupUserTimelineFragment(User user) {

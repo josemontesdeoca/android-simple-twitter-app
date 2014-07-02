@@ -14,5 +14,7 @@
     <color name="darkred">#FFCC0000</color>
     <color name="black">#000000</color>
     <color name="lightgray">#BBBBBB</color>
+    <color name="darkgray">#E5E5E5</color>
+    <color name="darkergray">#575757</color>
 
 </resources>
