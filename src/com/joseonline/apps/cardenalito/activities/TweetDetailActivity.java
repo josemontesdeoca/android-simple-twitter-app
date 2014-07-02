@@ -3,9 +3,10 @@ package com.joseonline.apps.cardenalito.activities;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.fragments.RetweetDialogFragment;
+import com.joseonline.apps.cardenalito.fragments.RetweetDialogFragment.onButtonClickListener;
 import com.joseonline.apps.cardenalito.helpers.DateUtil;
 import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
 import com.joseonline.apps.cardenalito.models.Tweet;
@@ -27,7 +30,7 @@ import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class TweetDetailActivity extends Activity {
+public class TweetDetailActivity extends FragmentActivity implements onButtonClickListener {
 
     private Tweet tweet;
     private ImageView ivProfileImage;
@@ -135,6 +138,15 @@ public class TweetDetailActivity extends Activity {
                 onReplyClick();
             }
         });
+
+        // Retweet Listener
+        cbRetweet.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onRetweetClick(tweet, cbRetweet.isChecked());
+            }
+        });
     }
 
     @Override
@@ -218,6 +230,13 @@ public class TweetDetailActivity extends Activity {
         startActivity(i);
     }
 
+    private void onRetweetClick(Tweet tweet, boolean retweet) {
+        FragmentManager fm = getSupportFragmentManager();
+        RetweetDialogFragment retweetAlertDialog = RetweetDialogFragment
+                .newInstance(tweet, retweet);
+        retweetAlertDialog.show(fm, "fragment_alert");
+    }
+
     // Should be called manually when an async task has started
     private void showProgressBar() {
         setProgressBarIndeterminateVisibility(true);
@@ -226,5 +245,40 @@ public class TweetDetailActivity extends Activity {
     // Should be called when an async task has finished
     private void hideProgressBar() {
         setProgressBarIndeterminateVisibility(false);
+    }
+
+    @Override
+    public void onRetweetClick(Tweet tweet) {
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            showProgressBar();
+            String tweetId = String.valueOf(tweet.getUid());
+            client.retweet(tweetId, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int status, JSONObject jsonObject) {
+                    Toast.makeText(getApplicationContext(), "retweeted!", Toast.LENGTH_SHORT)
+                            .show();
+                    hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable e, String s) {
+                    Log.d("debug", e.toString());
+                    Log.d("debug", s.toString());
+                    Toast.makeText(getApplicationContext(), "Problem retweeting. Try again",
+                            Toast.LENGTH_SHORT).show();
+                    hideProgressBar();
+                }
+            });
+        } else {
+            // No internet connectivity error
+            Toast.makeText(this, getString(R.string.no_internet_error_msg),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onUndoRetweetClick(Tweet tweet) {
+        // TODO: implement this
+        Toast.makeText(this, "Coming soon...", Toast.LENGTH_SHORT).show();
     }
 }
