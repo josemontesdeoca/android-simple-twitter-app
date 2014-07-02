@@ -20,6 +20,7 @@ This is an Android demo application which implements a simple Twitter applicatio
 - * [x] **Advanced:** User can "reply" to any tweet on their home timeline
  - The user that wrote the original tweet is automatically "@" replied in compose
 - * [x] **Advanced:** User can click on a tweet to be taken to a "detail view" of that tweet
+ - * [x] **Advanced:** User can take favorite (and unfavorite) or reweet actions on a tweet
 - * [x] **Advanced:** Improve the user interface and theme of the app.
 
 
