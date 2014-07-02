@@ -23,6 +23,7 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String USER_TIMELINE_PATH = "/statuses/user_timeline.json";
     private static final String CREATE_FAVORITE_PATH = "/favorites/create.json";
     private static final String DESTROY_FAVORITE_PATH = "/favorites/destroy.json";
+    private static final String RETWEET_PATH = "/statuses/retweet/";
 
     public TwitterClient(Context context) {
         super(context, TwitterClientSettings.REST_API_CLASS, TwitterClientSettings.REST_URL,
@@ -113,6 +114,12 @@ public class TwitterClient extends OAuthBaseClient {
         params.put(STATUS_PARAMETER, tweet);
 
         client.post(apiUrl, params, handler);
+    }
+    
+    public void retweet(String tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(RETWEET_PATH) + tweetId + ".json";
+
+        client.post(apiUrl, handler);
     }
 
     public void favoriteTweet(String tweetId, AsyncHttpResponseHandler handler) {
