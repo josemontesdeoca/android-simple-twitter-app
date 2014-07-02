@@ -4,8 +4,8 @@
         android:drawable="@drawable/button_twitter_gb"
         android:id="@+id/t_bg" />
     <item 
-        android:top="0dp" android:left="10dp">
-        <bitmap android:src="@drawable/icon_twitter"
+        android:top="0dp" android:left="5dp">
+        <bitmap android:src="@drawable/ic_twitter"
           android:gravity="left" />
     </item>
 

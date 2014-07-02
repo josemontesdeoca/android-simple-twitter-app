@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkgray"
+    tools:context="${packageName}.${activityClass}" >
+
+    <LinearLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/darkergray"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/profile_image_description"
+            android:src="@android:drawable/screen_background_light_transparent" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            style="@style/ProfileUserName"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            style="@style/ProfileScreenName"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llCounts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeader"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="10dp"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:background="@drawable/bg_card"
+        android:gravity="center" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvTweets"
+                style="@style/StatisticData"/>
+
+            <TextView
+                android:id="@+id/tvTweetsLabel"
+                style="@style/StatisticDataLabel"
+                android:text="TWEETS" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvFollowing"
+                style="@style/StatisticData"/>
+
+            <TextView
+                android:id="@+id/tvFollowingLabel"
+                style="@style/StatisticDataLabel"
+                android:text="FOLLOWING" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvFollowers"
+                style="@style/StatisticData"/>
+
+            <TextView
+                android:id="@+id/tvFollowersLabel"
+                style="@style/StatisticDataLabel"
+                android:text="FOLLOWERS" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vDivider2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/llCounts"
+        android:background="@android:color/darker_gray" />
+
+    <FrameLayout
+        android:id="@+id/flTimelineContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/vDivider2" />
+
+</RelativeLayout>

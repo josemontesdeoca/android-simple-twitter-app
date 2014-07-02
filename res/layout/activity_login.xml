@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cardenalito_background"
+    android:background="@drawable/cuatro_barquisimeto"
     tools:context=".LoginActivity" >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/llLogin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingRight="10dp"
-            android:paddingLeft="40dp"
+            android:paddingLeft="45dp"
             android:layout_margin="4dp" 
             android:background="@drawable/layers_twitter_btn_bg"
             style="@style/ButtonText"/>

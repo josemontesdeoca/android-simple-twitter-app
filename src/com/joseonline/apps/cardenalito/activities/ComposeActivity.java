@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.activeandroid.util.Log;
 import com.joseonline.apps.cardenalito.CardenalitoApplication;
 import com.joseonline.apps.cardenalito.R;
 import com.joseonline.apps.cardenalito.TwitterClient;
+import com.joseonline.apps.cardenalito.helpers.NetworkUtils;
 import com.joseonline.apps.cardenalito.models.Tweet;
 import com.joseonline.apps.cardenalito.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -38,23 +40,27 @@ public class ComposeActivity extends Activity {
     private TwitterClient client;
 
     private User authenticatedUser;
+    private Tweet replyTweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_compose);
 
         client = CardenalitoApplication.getRestClient();
 
-        authenticatedUser = (User) getIntent().getSerializableExtra(
-                TimelineActivity.AUTHENTICATED_USER_KEY);
+        replyTweet = (Tweet) getIntent().getSerializableExtra(Tweet.TWEET_KEY);
 
         setupView();
-
         setupListeners();
+        populateProfileHeader();
     }
 
     private void setupView() {
+        // Get log in user
+        authenticatedUser = User.getLoginUser();
+
         // Setup back button on actionBar home icon
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,6 +70,13 @@ public class ComposeActivity extends Activity {
         tvAuthUserScreenName = (TextView) findViewById(R.id.tvAuthUserScreenName);
         etComposeTweet = (EditText) findViewById(R.id.etComposeTweet);
 
+        if (replyTweet != null) {
+            etComposeTweet.setText(replyTweet.getUser().getScreenNameWithAt() + " ");
+            etComposeTweet.setSelection(etComposeTweet.getText().length());
+        }
+    }
+
+    private void populateProfileHeader() {
         // Show user info
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -131,33 +144,87 @@ public class ComposeActivity extends Activity {
     }
 
     public void onCompose(MenuItem item) {
-        String tweet = etComposeTweet.getText().toString();
+        String tweetBody = etComposeTweet.getText().toString();
 
-        if (tweet.length() > MAX_TWEET_LENGTH) {
+        if (tweetBody.length() > MAX_TWEET_LENGTH) {
             Toast.makeText(this, "Text should be less than 140 characters", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
-        client.postTweet(tweet, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject jsonObject) {
-                Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT).show();
-                Tweet tweet = Tweet.fromJSON(jsonObject);
+        postTweet(tweetBody);
+    }
 
-                Intent data = new Intent();
-                data.putExtra(Tweet.TWEET_KEY, tweet);
-                setResult(RESULT_OK, data);
-                finish();
-            }
+    private void postTweet(String tweetBody) {
+        showProgressBar();
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            if (replyTweet != null) {
+                // its a tweet reply
+                String replyTweetId = String.valueOf(replyTweet.getUid());
+                client.postTweet(replyTweetId, tweetBody, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+                        Toast.makeText(ComposeActivity.this, "Reply Tweet posted",
+                                Toast.LENGTH_SHORT).show();
+                        
+                        Tweet tweet = Tweet.fromJSON(jsonObject);
 
-            @Override
-            public void onFailure(Throwable e, String s) {
-                Log.d("debug", e.toString());
-                Log.d("debug", s.toString());
-                Toast.makeText(ComposeActivity.this, "Problem sending the tweet. Try again",
-                        Toast.LENGTH_SHORT).show();
+                        Intent data = new Intent();
+                        data.putExtra(Tweet.TWEET_KEY, tweet);
+                        setResult(RESULT_OK, data);
+                        hideProgressBar();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        hideProgressBar();
+                        Toast.makeText(ComposeActivity.this,
+                                "Problem sending the reply tweet. Try again", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+            } else {
+                client.postTweet(tweetBody, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+                        Toast.makeText(ComposeActivity.this, "Tweet posted", Toast.LENGTH_SHORT)
+                                .show();
+                        Tweet tweet = Tweet.fromJSON(jsonObject);
+
+                        Intent data = new Intent();
+                        data.putExtra(Tweet.TWEET_KEY, tweet);
+                        setResult(RESULT_OK, data);
+                        hideProgressBar();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String s) {
+                        Log.d("debug", e.toString());
+                        Log.d("debug", s.toString());
+                        hideProgressBar();
+                        Toast.makeText(ComposeActivity.this,
+                                "Problem sending the tweet. Try again",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
+        } else {
+            Toast.makeText(this, "Oops! no internet connection...", Toast.LENGTH_SHORT).show();
+            hideProgressBar();
+        }
+    }
+
+    // Should be called manually when an async task has started
+    public void showProgressBar() {
+        setProgressBarIndeterminateVisibility(true);
+    }
+
+    // Should be called when an async task has finished
+    public void hideProgressBar() {
+        setProgressBarIndeterminateVisibility(false);
     }
 }

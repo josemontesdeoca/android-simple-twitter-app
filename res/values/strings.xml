@@ -15,5 +15,12 @@
     <string name="sample_tweet_body_label">This is the tweet body</string>
     <string name="created_at_sample_label">2h</string>
     <string name="title_activity_tweet_detail">Tweet</string>
+    <string name="action_profile_label">Profile</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="action_signout_label">Sign Out</string>
+    <string name="no_internet_error_msg">Oops! no internet connection...</string>
+    <string name="remote_call_error_msg">Oops! something failed...</string>
+    <string name="retweets_label">RETWEETS</string>
+    <string name="favorites_label">FAVORITES</string>
 
 </resources>

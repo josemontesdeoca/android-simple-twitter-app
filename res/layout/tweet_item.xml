@@ -2,59 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@color/white" >
+    android:background="@drawable/bg_card"
+    android:descendantFocusability="blocksDescendants" >
 
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/profile_image_description"/>
-    
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/profile_image_description"
+        android:src="@drawable/ic_action_user_profile" />
+
     <TextView
         android:id="@+id/tvUserName"
         style="@style/UserName"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/ivProfileImage"
         android:text="@string/foo_name_label" />
-    
+
     <TextView
         android:id="@+id/tvScreenName"
         style="@style/ScreenName"
         android:layout_alignBaseline="@+id/tvUserName"
-        android:layout_toRightOf="@+id/tvUserName"
-        android:layout_toLeftOf="@+id/tvCreatedAt"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/tvCreatedAt"
+        android:layout_toRightOf="@+id/tvUserName"
         android:text="@string/foo_label" />
-    
+
     <TextView
         android:id="@+id/tvCreatedAt"
         style="@style/CreatedAt"
         android:layout_alignBaseline="@+id/tvUserName"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="4dp"
         android:text="@string/created_at_sample_label" />
 
     <TextView
         android:id="@+id/tvTweetBody"
         style="@style/TweetBody"
         android:layout_below="@+id/tvUserName"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/ivProfileImage"
         android:autoLink="all"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
         android:text="@string/sample_tweet_body_label" />
-    
+
     <ImageView
         android:id="@+id/ivMediaEntity"
         android:layout_width="fill_parent"
@@ -62,9 +62,69 @@
         android:layout_alignLeft="@+id/tvTweetBody"
         android:layout_below="@+id/tvTweetBody"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_action_user_profile" 
-        android:visibility="gone"/>
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/ic_action_user_profile"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/CallToAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_alignRight="@+id/tvCreatedAt"
+        android:layout_below="@+id/ivMediaEntity"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/llReply"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/ivReply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_reply" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llRetweets"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:id="@+id/cbRetweet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_retweet"/>
+
+            <TextView
+                android:id="@+id/tvRetweets"
+                style="@style/StatisticDataTimeline"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:id="@+id/cbFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_favorite" />
+
+            <TextView
+                android:id="@+id/tvFavorites"
+                style="@style/StatisticDataTimeline"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

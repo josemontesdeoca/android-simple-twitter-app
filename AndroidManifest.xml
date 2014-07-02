@@ -17,7 +17,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:logo="@drawable/ic_cardenalito"
+        android:theme="@style/Theme.Simple_twitter_app" >
 
         <!-- Database metadata -->
         <meta-data
@@ -29,8 +30,9 @@
 
         <activity
             android:name="com.joseonline.apps.cardenalito.activities.LoginActivity"
-            android:label="@string/app_name" 
-            android:noHistory="true" >
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,6 +60,10 @@
         <activity
             android:name="com.joseonline.apps.cardenalito.activities.TweetDetailActivity"
             android:label="@string/title_activity_tweet_detail" >
+        </activity>
+        <activity
+            android:name="com.joseonline.apps.cardenalito.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 

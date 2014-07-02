@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Column.ConflictAction;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.Log;
@@ -21,7 +22,7 @@ public class Tweet extends Model implements Serializable {
 
     public static final String TWEET_KEY = "tweet";
 
-    @Column(name = "remote_id", unique = true)
+    @Column(name = "remote_id", unique = true, onUniqueConflict = ConflictAction.REPLACE)
     private long uid;
     @Column(name = "body")
     private String body;
@@ -31,6 +32,14 @@ public class Tweet extends Model implements Serializable {
     private User user;
     @Column(name = "media_url")
     private String mediaUrl;
+    @Column(name = "retweet_count")
+    private int retweetCount;
+    @Column(name = "retweeted")
+    private boolean retweeted;
+    @Column(name = "favorite_count")
+    private int favoriteCount;
+    @Column(name = "favorited")
+    private boolean favorited;
 
     public Tweet() {
         super();
@@ -55,11 +64,27 @@ public class Tweet extends Model implements Serializable {
     public String getMediaUrl() {
         return mediaUrl;
     }
-    
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public boolean isFavorited() {
+        return favorited;
+    }
+
     public String getMediaUrlThumb() {
         return mediaUrl + ":thumb";
     }
-    
+
     public String getMediaUrlSmall() {
         return mediaUrl + ":small";
     }
@@ -99,7 +124,11 @@ public class Tweet extends Model implements Serializable {
             tweet.body = jsonObject.getString("text");
             tweet.createAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-            
+            tweet.retweetCount = jsonObject.getInt("retweet_count");
+            tweet.retweeted = jsonObject.getBoolean("retweeted");
+            tweet.favoriteCount = jsonObject.getInt("favorite_count");
+            tweet.favorited = jsonObject.getBoolean("favorited");
+
             // Getting a media Url
             try {
                 JSONObject entities = jsonObject.getJSONObject("entities");
@@ -111,12 +140,23 @@ public class Tweet extends Model implements Serializable {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
 
         return tweet;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Tweet tweet = (Tweet) obj;
+
+        return uid == tweet.getUid();
     }
 }

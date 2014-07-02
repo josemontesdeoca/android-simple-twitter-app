@@ -19,7 +19,7 @@ public class DeleteAndSaveTweetsTask extends AsyncTask<ArrayList<Tweet>, Void, B
 
         // drop tables
         new Delete().from(Tweet.class).execute();
-        new Delete().from(User.class).execute();
+        new Delete().from(User.class).where("login_user = ?", 0).execute();
 
         Log.d("DEBUG", "Saving Tweets and User data");
         ActiveAndroid.beginTransaction();

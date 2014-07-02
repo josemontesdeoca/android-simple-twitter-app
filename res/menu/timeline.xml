@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-    <item 
+
+    <item
         android:id="@+id/action_compose"
         android:icon="@drawable/ic_action_compose"
-        android:showAsAction="always"
         android:onClick="onCompose"
+        android:showAsAction="always"
         android:title="@string/action_compose_label"/>
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_profile"
+        android:onClick="onProfileView"
+        android:showAsAction="always"
+        android:title="@string/action_profile_label"/>
+    <item
+        android:id="@+id/action_signout"
+        android:onClick="onSignOut"
+        android:showAsAction="never"
+        android:title="@string/action_signout_label"/>
+
 </menu>
